@@ -11,7 +11,6 @@ if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode("utf-8")
     df = preprocessor.preprocess(data)
-    st.dataframe(df)
 
     # fetch unique users
     user_list = df['user'].unique().tolist()
@@ -21,6 +20,8 @@ if uploaded_file is not None:
     user_list.insert(0,"Overall")
 
     selected_user = st.sidebar.selectbox("Show analysis wrt",user_list)
+    display_df = df if selected_user == 'Overall' else df[df['user'] == selected_user]
+    st.dataframe(display_df)
 
     if st.sidebar.button("Show Analysis"):
 
