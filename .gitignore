@@ -1,3 +1,33 @@
+# WhatsApp chat export files (personal data — never push)
 WhatsApp Chat with +91 81795 14152.txt
 WhatsApp Chat with 🌈 with one colour less.txt
 WhatsApp Chat with APP PAP🪼.txt
+*.txt
+
+# Python compiled files — auto-generated, never push
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Streamlit cache
+.streamlit/
+
+# Hugging Face model cache (huge, ~2 GB — never push)
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace

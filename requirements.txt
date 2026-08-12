@@ -1,3 +1,4 @@
+# ── Existing dependencies (unchanged) ────────────────────────────────────────
 streamlit
 pandas
 numpy
@@ -6,3 +7,22 @@ seaborn
 wordcloud
 urlextract
 emoji
+
+# ── New NLP dependencies (Phase 1+) ──────────────────────────────────────────
+
+# transformers — Hugging Face library that provides the pipeline() API.
+# It downloads and runs the XLM-RoBERTa sentiment and emotion models.
+transformers
+
+# torch — PyTorch, the deep-learning backend that transformers runs on.
+# The models need this to actually do computation.
+# CPU-only version is fine for this project (no GPU required).
+torch
+
+# sentencepiece — tokenizer library required by XLM-RoBERTa models.
+# Without it, the tokenizer will raise an ImportError when loading the model.
+sentencepiece
+
+# accelerate — optional but recommended by Hugging Face for faster inference
+# and cleaner device handling. Suppresses several warnings.
+accelerate
