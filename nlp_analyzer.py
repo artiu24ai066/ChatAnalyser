@@ -597,7 +597,7 @@ def cached_enrich(file_hash: str, df: pd.DataFrame) -> pd.DataFrame:
     # disappears immediately when the cached result is returned on re-use.
     progress_bar = st.progress(0.0, text="Starting NLP analysis...")
     result = enrich_dataframe(df, run_sentiment=True, run_emotion=True,
-                              progress_bar=progress_bar)
+                              run_sarcasm=True, progress_bar=progress_bar)
     progress_bar.progress(1.0, text="NLP analysis complete.")
     progress_bar.empty()   # remove the bar from the UI after completion
     return result

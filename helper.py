@@ -864,7 +864,9 @@ def top_sarcastic_messages(selected_user, df, n=10):
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    df = df[df['is_sarcastic'] == True].copy()
+    # is_sarcastic is stored as Python bool objects in an object-dtype column.
+    # Using == True can silently fail on object columns — .isin([True]) is reliable.
+    df = df[df['is_sarcastic'].isin([True])].copy()
     df = df[df['user'] != 'group_notification']
 
     if df.empty:

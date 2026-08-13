@@ -624,27 +624,23 @@ if uploaded_file is not None:
         # ── END PHASE 6 ───────────────────────────────────────────────────────
 
         # ── PHASE 7: Sarcasm / Irony Detection ───────────────────────────────
-        # Model: cardiffnlp/twitter-roberta-base-irony
-        # Binary classifier: Sarcastic (irony) | Not Sarcastic (non_irony)
+        # Model: amaan00z/sarcasm_xlmr
+        # XLM-RoBERTa fine-tuned for sarcasm detection.
+        # Handles Hinglish better than English-only models.
+        # Binary classifier: LABEL_0 (not sarcastic) | LABEL_1 (sarcastic)
         # sarcasm_score = model confidence (0–1) for the predicted label.
-        #
-        # Important limitations shown clearly in the UI:
-        #   - Trained on English Twitter, not Hinglish
-        #   - Context-dependent sarcasm ("haan bilkul") often missed
-        #   - Low scores near 0.5 = model is uncertain
         # =====================================================================
         st.title("Sarcasm / Irony Detection")
         st.caption(
-            "Powered by RoBERTa fine-tuned on Twitter irony data. "
-            "Detects irony and sarcasm in messages. "
+            "Powered by amaan00z/sarcasm_xlmr — XLM-RoBERTa fine-tuned for sarcasm detection. "
+            "Handles Hinglish better than English-only models. "
             "sarcasm_score = model confidence (0–1) for the predicted label."
         )
         st.warning(
-            "**Hinglish limitation:** This model was trained on English Twitter data. "
-            "It detects sarcasm reliably in English messages but may miss "
-            "Hinglish-specific sarcastic patterns like 'haan bilkul' or "
-            "'wah kya baat hai'. Treat results as a statistical signal, "
-            "not a definitive sarcasm classification."
+            "**Note:** Sarcasm is highly context-dependent. "
+            "Phrases like 'haan bilkul' and 'wah kya baat hai' are often detected correctly "
+            "but the model may still miss subtle or heavily context-dependent sarcasm. "
+            "Treat results as a statistical signal, not a definitive classification."
         )
 
         sarc_df = df if selected_user == "Overall" else df[df["user"] == selected_user]
@@ -703,9 +699,11 @@ if uploaded_file is not None:
                     st.info("Not enough data per user (need ≥ 5 analyzed messages).")
                 else:
                     fig, ax = plt.subplots()
-                    bar_colors = ['#e74c3c' if r > 20 else '#f39c12' if r > 10 else '#95a5a6'
-                                  for r in sarc_user_df['sarcasm_rate']]
-                    ax.bar(sarc_user_df['user'], sarc_user_df['sarcasm_rate'], color=bar_colors)
+                    # Give each user a distinct colour from the tab10 palette
+                    import matplotlib.cm as cm
+                    n_users    = len(sarc_user_df)
+                    tab_colors = [cm.tab10(i / max(n_users, 1)) for i in range(n_users)]
+                    ax.bar(sarc_user_df['user'], sarc_user_df['sarcasm_rate'], color=tab_colors)
                     plt.xticks(rotation='vertical')
                     ax.set_ylabel("Sarcasm Rate (%)")
                     st.pyplot(fig)
@@ -806,10 +804,10 @@ if uploaded_file is not None:
             # ── Disclaimer ────────────────────────────────────────────────────
             st.info(
                 "**Sarcasm detection limitations:**  \n"
-                "- Model trained on English Twitter — Hinglish sarcasm often missed.  \n"
-                "- Context-dependent phrases ('haan bilkul', 'wah kya baat') are hard.  \n"
-                "- Sarcasm score near 0.5 = model is uncertain — low reliability.  \n"
-                "- Sarcastic messages frequently get Positive sentiment because the  \n"
+                "- Model: amaan00z/sarcasm_xlmr (XLM-RoBERTa, multilingual).  \n"
+                "- Handles Hinglish sarcasm better than English-only models.  \n"
+                "- Sarcasm score near 0.5 = model is uncertain — treat with caution.  \n"
+                "- Sarcastic messages may still get Positive sentiment because the  \n"
                 "  sentiment model reads surface words, not ironic intent.  \n"
                 "- These predictions are statistical estimates, not human judgements."
             )
