@@ -1,64 +1,220 @@
 import re
+import warnings
 import pandas as pd
 
-def preprocess(data):
-    # normalize unicode spaces that appear in some WhatsApp exports
-    data = data.replace('\u202f', ' ').replace('\u00A0', ' ')
 
-    # pattern matches timestamps like: 07/08/24, 6:23 pm -  or 07/08/2024, 18:23 -
-    # The (?m) flag makes ^ match start of each line, preventing false matches
-    # inside URLs or message content that contain date-like patterns (e.g. 1/22/26
-    # inside an Instagram URL like /reel/DTPI_PFgVDv/?igsh=...)
-    timestamp_pattern = r"\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}(?:\s?[apAP][Mm]\.?)?\s-\s"
+# ---------------------------------------------------------------------------
+# All known WhatsApp timestamp formats, grouped by platform / locale
+#
+# ANDROID formats  (separator is " - " after the timestamp)
+#   DD/MM/YY,  H:MM am/pm  – India / most of Asia  e.g. "07/08/24, 6:23 pm -"
+#   DD/MM/YYYY, H:MM am/pm – same with 4-digit year  e.g. "07/08/2024, 6:23 pm -"
+#   M/D/YY,  H:MM AM/PM   – US locale               e.g. "9/12/24, 9:19 PM -"
+#   DD/MM/YY, HH:MM        – 24-hour Android         e.g. "07/08/24, 18:23 -"
+#   D.M.YYYY, HH:MM        – German / European       e.g. "7.8.2024, 18:23 -"
+#   YYYY/MM/DD, HH:MM      – some East-Asian locales e.g. "2024/08/07, 18:23 -"
+#
+# iOS formats  (timestamp is wrapped in square brackets, seconds included)
+#   [DD/MM/YYYY, HH:MM:SS AM/PM] Name: message
+#   [M/D/YYYY, H:MM:SS AM/PM] Name: message
+#   [D.M.YYYY, HH:MM:SS] Name: message
+# ---------------------------------------------------------------------------
 
-    messages = re.split(timestamp_pattern, data)[1:]
+# ── 1. Detect which broad format the file uses ──────────────────────────────
 
-    # Use re.MULTILINE so ^ anchors to start of line, not just start of string.
-    # This ensures only timestamps that appear at the beginning of a line are
-    # captured as dates — not date-like patterns inside URLs or message text.
-    dates = re.findall(
-        r"(?m)^\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}(?:\s?[apAP][Mm]\.?)?",
-        data
+def _detect_format(data: str) -> str:
+    """Return 'ios' or 'android'.
+
+    iOS exports have lines that START with a full bracketed timestamp:
+        [DD/MM/YYYY, HH:MM:SS AM/PM] Name: message
+    We require the bracket to contain a valid timestamp, not just any '['.
+    """
+    ios_line = re.compile(
+        r"^\["
+        r"(?:\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}|\d{4}[/\.]\d{1,2}[/\.]\d{1,2})"
+        r",\s\d{1,2}:\d{2}"
+        r"(?::\d{2})?(?:\s?[apAP][mM]\.?)?"
+        r"\]",
+        re.MULTILINE,
     )
+    if ios_line.search(data):
+        return "ios"
+    return "android"
+
+
+# ── 2. Normalise the raw text so one regex can handle everything ────────────
+
+def _normalise(data: str) -> str:
+    # Replace every unicode whitespace variant with a plain ASCII space
+    for ch in ('\u202f', '\u00a0', '\u2009', '\u200b', '\u2060', '\ufeff'):
+        data = data.replace(ch, ' ')
+    return data
+
+
+# ── 3. Android parsing ──────────────────────────────────────────────────────
+#
+# Timestamp token: date-part , time-part  -
+#
+# date-part  = one of:
+#   \d{1,2}/\d{1,2}/\d{2,4}   →  D/M/YY  or  M/D/YY  (slash-separated)
+#   \d{1,2}\.\d{1,2}\.\d{2,4} →  D.M.YYYY (dot-separated, European)
+#   \d{4}/\d{1,2}/\d{1,2}     →  YYYY/MM/DD (East-Asian)
+#
+# time-part  = \d{1,2}:\d{2}(:\d{2})? followed by optional AM/PM
+#
+_AND_TIMESTAMP = (
+    r"(?:"
+        r"\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}"   # D/M/YY  or  D.M.YYYY
+        r"|"
+        r"\d{4}[/\.]\d{1,2}[/\.]\d{1,2}"      # YYYY/MM/DD
+    r")"
+    r",\s"
+    r"\d{1,2}:\d{2}(?::\d{2})?"               # HH:MM  or  HH:MM:SS
+    r"(?:\s?[apAP][mM]\.?)?"                   # optional AM/PM (any case, optional dot)
+)
+
+_AND_FULL_PATTERN  = _AND_TIMESTAMP + r"\s-\s"   # full line token  "… - "
+_AND_DATE_ONLY     = r"(?m)^" + _AND_TIMESTAMP    # anchored to line-start for findall
+
+
+def _parse_android(data: str) -> pd.DataFrame:
+    messages = re.split(_AND_FULL_PATTERN, data)[1:]
+    dates    = re.findall(_AND_DATE_ONLY, data)
+
+    if not dates:
+        return pd.DataFrame()
 
     df = pd.DataFrame({'user_message': messages, 'message_date': dates})
-    # parse dates robustly (day-first), allow both 12h and 24h formats
-    df['message_date'] = pd.to_datetime(df['message_date'], dayfirst=True, errors='coerce')
-    # drop rows that failed to parse
+    df['message_date'] = _smart_parse(df['message_date'])
     df = df[df['message_date'].notnull()]
+    return df
 
-    df.rename(columns={'message_date': 'date'}, inplace=True)
 
-    users = []
-    messages = []
-    for message in df['user_message']:
-        entry = re.split(r'([\w\W]+?):\s', message)
-        if entry[1:]:  # user name
-            users.append(entry[1])
-            messages.append(" ".join(entry[2:]))
+# ── 4. iOS parsing ──────────────────────────────────────────────────────────
+#
+# Example line:
+#   [08/07/2024, 6:23:45 PM] Arti Jangid: hello
+#
+_IOS_TIMESTAMP = (
+    r"\["
+    r"(?:"
+        r"\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}"
+        r"|"
+        r"\d{4}[/\.]\d{1,2}[/\.]\d{1,2}"
+    r")"
+    r",\s"
+    r"\d{1,2}:\d{2}(?::\d{2})?"
+    r"(?:\s?[apAP][mM]\.?)?"
+    r"\]"
+)
+
+_IOS_FULL_PATTERN = _IOS_TIMESTAMP + r"\s"      # full bracket token + space
+_IOS_DATE_ONLY    = (                            # captures just the inner timestamp
+    r"(?m)^\["
+    r"("
+        r"(?:"
+            r"\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}"
+            r"|"
+            r"\d{4}[/\.]\d{1,2}[/\.]\d{1,2}"
+        r")"
+        r",\s"
+        r"\d{1,2}:\d{2}(?::\d{2})?"
+        r"(?:\s?[apAP][mM]\.?)?"
+    r")\]"
+)
+
+
+def _parse_ios(data: str) -> pd.DataFrame:
+    messages = re.split(_IOS_FULL_PATTERN, data)[1:]
+    dates    = re.findall(_IOS_DATE_ONLY, data)   # group(1) strips the brackets
+
+    if not dates:
+        return pd.DataFrame()
+
+    df = pd.DataFrame({'user_message': messages, 'message_date': dates})
+    df['message_date'] = _smart_parse(df['message_date'])
+    df = df[df['message_date'].notnull()]
+    return df
+
+
+# ── 5. Smart date parser ────────────────────────────────────────────────────
+#
+# WhatsApp can use either D/M/Y or M/D/Y depending on the phone's locale.
+# We try dayfirst=True (most of the world) first.  If that produces too many
+# NaTs we fall back to dayfirst=False (US locale).
+#
+def _smart_parse(date_series: pd.Series) -> pd.Series:
+    # Strip seconds component so pandas can parse uniformly
+    cleaned = date_series.str.replace(
+        r'(:\d{2})(:\d{2})', r'\1', regex=True
+    )
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        parsed_day_first = pd.to_datetime(cleaned, dayfirst=True,  errors='coerce')
+        parsed_us        = pd.to_datetime(cleaned, dayfirst=False, errors='coerce')
+
+    null_df = parsed_day_first.isna().sum()
+    null_us = parsed_us.isna().sum()
+
+    # Pick whichever strategy produces fewer failed parses
+    return parsed_day_first if null_df <= null_us else parsed_us
+
+
+# ── 6. Split user / message ─────────────────────────────────────────────────
+
+def _extract_users_messages(df: pd.DataFrame):
+    users, messages = [], []
+    for raw in df['user_message']:
+        # Each message starts with "Name: text" or is a group notification
+        parts = re.split(r'([\w\W]+?):\s', raw, maxsplit=1)
+        if len(parts) >= 3:          # ['', name, rest_of_message]
+            users.append(parts[1])
+            messages.append(parts[2])
         else:
             users.append('group_notification')
-            messages.append(entry[0])
-
-    df['user'] = users
+            messages.append(parts[0])
+    df['user']    = users
     df['message'] = messages
     df.drop(columns=['user_message'], inplace=True)
+    return df
 
+
+# ── 7. Public entry-point ───────────────────────────────────────────────────
+
+def preprocess(data: str) -> pd.DataFrame:
+    """
+    Parse a WhatsApp chat export (any platform / locale) and return a
+    tidy DataFrame with columns:
+        date, user, message, only_date, year, month_num, month,
+        day, day_name, hour, minute, period
+    """
+    data = _normalise(data)
+    fmt  = _detect_format(data)
+
+    df = _parse_ios(data) if fmt == "ios" else _parse_android(data)
+
+    if df.empty:
+        raise ValueError(
+            "Could not parse the chat file. "
+            "The format may be unsupported or the file may be corrupted."
+        )
+
+    df.rename(columns={'message_date': 'date'}, inplace=True)
+    df = _extract_users_messages(df)
+
+    # ── Date/time feature columns ───────────────────────────────────────────
     df['only_date'] = df['date'].dt.date
-    df['year'] = df['date'].dt.year
+    df['year']      = df['date'].dt.year
     df['month_num'] = df['date'].dt.month
-    df['month'] = df['date'].dt.month_name()
-    df['day'] = df['date'].dt.day
-    df['day_name'] = df['date'].dt.day_name()
-    df['hour'] = df['date'].dt.hour
-    df['minute'] = df['date'].dt.minute
+    df['month']     = df['date'].dt.month_name()
+    df['day']       = df['date'].dt.day
+    df['day_name']  = df['date'].dt.day_name()
+    df['hour']      = df['date'].dt.hour
+    df['minute']    = df['date'].dt.minute
 
-    period = []
-    for hour in df['hour']:
-        start = f"{hour:02d}"
-        end = f"{(hour + 1) % 24:02d}"
-        period.append(f"{start}-{end}")
-
-    df['period'] = period
+    df['period'] = df['hour'].apply(
+        lambda h: f"{h:02d}-{(h + 1) % 24:02d}"
+    )
 
     return df
