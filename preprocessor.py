@@ -6,11 +6,20 @@ def preprocess(data):
     data = data.replace('\u202f', ' ').replace('\u00A0', ' ')
 
     # pattern matches timestamps like: 07/08/24, 6:23 pm -  or 07/08/2024, 18:23 -
-    timestamp_pattern = r"\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}(?:\s?[apAP]\.??m\.??)?\s-\s"
+    # The (?m) flag makes ^ match start of each line, preventing false matches
+    # inside URLs or message content that contain date-like patterns (e.g. 1/22/26
+    # inside an Instagram URL like /reel/DTPI_PFgVDv/?igsh=...)
+    timestamp_pattern = r"\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}(?:\s?[apAP][Mm]\.?)?\s-\s"
 
     messages = re.split(timestamp_pattern, data)[1:]
-    # find timestamps without the trailing ' - '
-    dates = re.findall(r"\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}(?:\s?[apAP]\.??m\.??)?", data)
+
+    # Use re.MULTILINE so ^ anchors to start of line, not just start of string.
+    # This ensures only timestamps that appear at the beginning of a line are
+    # captured as dates — not date-like patterns inside URLs or message text.
+    dates = re.findall(
+        r"(?m)^\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}(?:\s?[apAP][Mm]\.?)?",
+        data
+    )
 
     df = pd.DataFrame({'user_message': messages, 'message_date': dates})
     # parse dates robustly (day-first), allow both 12h and 24h formats
@@ -23,7 +32,7 @@ def preprocess(data):
     users = []
     messages = []
     for message in df['user_message']:
-        entry = re.split('([\w\W]+?):\s', message)
+        entry = re.split(r'([\w\W]+?):\s', message)
         if entry[1:]:  # user name
             users.append(entry[1])
             messages.append(" ".join(entry[2:]))
