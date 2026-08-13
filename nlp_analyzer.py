@@ -142,7 +142,7 @@ EMOTION_ICONS = {
 # How many messages to send to the model at once.
 # Larger batches = faster overall, but use more RAM.
 # 32 is a safe default for most laptops.
-BATCH_SIZE = 64   # increased from 32 — fewer model round-trips, faster on CPU
+BATCH_SIZE = 128  # send 128 messages per model call — faster than 64 on CPU
 
 MAX_LENGTH = 64   # reduced from 128 — WhatsApp messages rarely exceed 30 tokens,
                   # cutting this in half roughly halves the computation per batch
