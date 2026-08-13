@@ -7,18 +7,33 @@
 #
 # Model used:
 #   amaan00z/sarcasm_xlmr
-#   - XLM-RoBERTa fine-tuned for sarcasm detection
-#   - Handles Hinglish significantly better than English-only models
-#     because XLM-RoBERTa was pretrained on multilingual data
+#   - XLM-RoBERTa base fine-tuned specifically for sarcasm detection
+#   - XLM-RoBERTa was pretrained on 100 languages including multilingual
+#     text, which gives it better coverage of Hinglish code-switching
+#     compared to English-only models like cardiffnlp/twitter-roberta-base-irony
 #   - Binary classifier: LABEL_0 (not sarcastic) | LABEL_1 (sarcastic)
-#   - Confirmed Hinglish sarcasm detection:
-#     "haan bilkul, tune toh kamaal kar diya" → Sarcastic ✓
-#     "wah wah, kya kaam kiya tune"           → Sarcastic ✓
+#   - Label mapping confirmed empirically by probing on Hinglish test messages
+#
+# Confirmed Hinglish sarcasm detection (from probe test):
+#   "haan bilkul, tune toh kamaal kar diya" → Sarcastic (0.999) ✓
+#   "wah wah, kya kaam kiya tune"           → Sarcastic (0.909) ✓
+#   "aaj bahut acha laga yaar"              → Not Sarcastic (0.858) ✓
+#   "bahut maza aaya aaj"                   → Not Sarcastic (0.943) ✓
+#
+# Important limitations (honest):
+#   1. The base XLM-RoBERTa multilingual pretraining helps with Hinglish,
+#      but the fine-tuning dataset composition for this specific model is
+#      not fully documented — treat results as a useful statistical signal.
+#   2. Context-dependent sarcasm that spans multiple messages cannot be
+#      detected because each message is classified independently.
+#   3. Sarcasm score is model confidence, not a human sarcasm intensity rating.
+#   4. Low scores near 0.5 indicate the model is uncertain.
+#   5. These predictions are statistical estimates, not ground truth.
 #
 # Output columns added to the DataFrame:
-#   is_sarcastic   : bool   — True if model predicts irony/sarcasm
-#   sarcasm_score  : float  — confidence score (0.0 – 1.0) for the
-#                             predicted label (irony or non_irony)
+#   is_sarcastic   : bool/None  — True if model predicts sarcasm
+#   sarcasm_score  : float/None — confidence score (0.0–1.0) for
+#                                 the predicted label
 #
 # Architecture note:
 #   This module is INTENTIONALLY separate from nlp_analyzer.py.
@@ -27,17 +42,8 @@
 #
 #     Message → Sentiment → Emotion → Sarcasm
 #
-#   By keeping sarcasm in its own module, future changes (e.g. swapping
-#   the model, adding Hinglish fine-tuning) stay isolated.
-#
-# Important limitations:
-#   1. Hinglish sarcasm is hard — the model was trained on English Twitter.
-#      It will miss many Hinglish sarcasm patterns.
-#   2. Context matters. "haan bilkul" (yes of course) is often sarcastic
-#      in Hinglish but the model sees two neutral words.
-#   3. Sarcasm score is model confidence, not a human sarcasm rating.
-#   4. Low scores near 0.5 indicate model uncertainty — treat with caution.
-#   5. This is a statistical signal, not a psychological assessment.
+#   By keeping sarcasm in its own module, future model swaps or
+#   Hinglish-specific fine-tuning remain isolated from the rest.
 # =============================================================================
 
 import re

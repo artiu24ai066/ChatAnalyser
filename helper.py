@@ -516,26 +516,33 @@ def emotion_over_time(selected_user, df, top_n=5):
     """
     Calculate monthly emotion distribution (%) over time.
 
-    Same structure as sentiment_over_time() but for emotion classes.
-    Because there are up to 7 emotions, we limit to the top_n most
-    frequent emotions overall to keep the chart readable.
+    Shows the top_n most frequent emotions, but percentages are calculated
+    against ALL analyzed messages that month — not just the top-5 subset.
+
+    This is the scientifically correct approach:
+      - Dropping low-frequency emotions from the denominator would inflate
+        the percentages of displayed emotions.
+      - Example: if Joy=40, Neutral=30, Sadness=10, Anger=10, Love=5, Fear=5
+        and we show top-5 (dropping Fear), the denominator should still be 100
+        (all messages), not 95 (top-5 only). Otherwise Joy would show as
+        40/95=42% instead of the correct 40/100=40%.
 
     Parameters
     ----------
     selected_user : str
     df            : pd.DataFrame  (must have 'user', 'emotion',
                                    'year', 'month_num', 'month' columns)
-    top_n         : int  — how many emotions to include (default 5)
+    top_n         : int  — how many emotions to display (default 5)
 
     Returns
     -------
     result : pd.DataFrame
         Columns: time_label (str), plus one column per top emotion (%).
-        Sorted chronologically.
-        Empty DataFrame if no valid data.
+        Percentages are relative to ALL analyzed messages that month.
+        Sorted chronologically. Empty DataFrame if no valid data.
 
     top_emotions : list of str
-        The emotion labels that were selected (for use in chart legend).
+        The emotion labels selected for display.
     """
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
@@ -546,7 +553,7 @@ def emotion_over_time(selected_user, df, top_n=5):
     if df.empty:
         return pd.DataFrame(), []
 
-    # Find the top_n most frequent emotions overall
+    # Find top_n most frequent emotions overall (for display selection only)
     top_emotions = (
         df['emotion'].value_counts()
         .head(top_n)
@@ -554,33 +561,39 @@ def emotion_over_time(selected_user, df, top_n=5):
         .tolist()
     )
 
-    # Filter to only those emotions
-    df = df[df['emotion'].isin(top_emotions)]
+    # ── Step 1: Count ALL emotions per month (for correct denominator) ────────
+    all_grouped = (
+        df.groupby(['year', 'month_num', 'month'])
+        .size()
+        .reset_index(name='total_all')
+    )
 
-    grouped = (
-        df.groupby(['year', 'month_num', 'month', 'emotion'])
+    # ── Step 2: Count only the top-N emotions per month ───────────────────────
+    top_grouped = (
+        df[df['emotion'].isin(top_emotions)]
+        .groupby(['year', 'month_num', 'month', 'emotion'])
         .size()
         .reset_index(name='count')
     )
 
-    pivot = grouped.pivot_table(
+    pivot = top_grouped.pivot_table(
         index=['year', 'month_num', 'month'],
         columns='emotion',
         values='count',
         fill_value=0
     ).reset_index()
 
-    # Ensure all top_emotions columns exist
+    # Ensure all top_emotions columns exist even if absent in some months
     for emo in top_emotions:
         if emo not in pivot.columns:
             pivot[emo] = 0
 
-    # Row total (only the top emotions, not all emotions)
-    pivot['total'] = pivot[top_emotions].sum(axis=1)
+    # ── Step 3: Merge correct total (all messages) as denominator ─────────────
+    pivot = pivot.merge(all_grouped, on=['year', 'month_num', 'month'], how='left')
 
-    # Convert to percentages (relative to top-emotion messages that month)
+    # ── Step 4: Calculate % against all analyzed messages ─────────────────────
     for emo in top_emotions:
-        pivot[f'{emo}_pct'] = (pivot[emo] / pivot['total'] * 100).round(1)
+        pivot[f'{emo}_pct'] = (pivot[emo] / pivot['total_all'] * 100).round(1)
 
     pivot = pivot.sort_values(['year', 'month_num']).reset_index(drop=True)
     pivot['time_label'] = pivot['month'].str[:3] + '-' + pivot['year'].astype(str)

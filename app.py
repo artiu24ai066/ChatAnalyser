@@ -222,8 +222,9 @@ if uploaded_file is not None:
         # ── PHASE 2: Emotion Analysis ─────────────────────────────────────────
         st.title("Emotion Analysis")
         st.caption(
-            "Multilingual XLM-RoBERTa emotion model. "
-            "Labels: Joy, Sadness, Anger, Fear, Surprise, Disgust, Neutral. "
+            "Multilingual XLM-RoBERTa emotion model (tabularisai/multilingual-emotion-classification). "
+            "11 emotion classes: Anger, Contempt, Disgust, Fear, Frustration, Gratitude, "
+            "Joy, Love, Neutral, Sadness, Surprise. "
             "Emotion score = model confidence (0-1)."
         )
 
@@ -304,7 +305,9 @@ if uploaded_file is not None:
             st.dataframe(avg_emo_conf, use_container_width=True)
 
             st.info(
-                "This model has 7 emotion classes. Love and Gratitude may map to Joy/Neutral. "
+                "This model has 11 emotion classes: "
+                "Anger, Contempt, Disgust, Fear, Frustration, Gratitude, "
+                "Joy, Love, Neutral, Sadness, Surprise. "
                 "Short Hinglish messages often predict Neutral. "
                 "Emotion score is model confidence, not intensity."
             )
@@ -487,7 +490,7 @@ if uploaded_file is not None:
                 )
 
         st.title("Emotion Over Time")
-        st.caption("Monthly % of the top 5 most common emotions.")
+        st.caption("Monthly % of the top 5 most common emotions (as % of all analyzed messages that month).")
 
         eot_df, top_emotions = helper.emotion_over_time(selected_user, df, top_n=5)
 

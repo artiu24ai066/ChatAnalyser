@@ -24,5 +24,5 @@ sentencepiece
 accelerate
 
 # scipy — used internally by transformers for softmax / special functions.
-# Required by cardiffnlp/twitter-roberta-base-irony (sarcasm model).
+# Required by amaan00z/sarcasm_xlmr (sarcasm model).
 scipy

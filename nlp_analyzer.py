@@ -22,8 +22,9 @@
 #
 #   Emotion   : tabularisai/multilingual-emotion-classification
 #               XLM-R based multilingual model.
-#               Labels: Joy, Sadness, Anger, Fear, Surprise, Disgust, Neutral
-#               Added in Phase 2 — placeholder loader is here already.
+#               Actual label set: 11 classes —
+#               Anger, Contempt, Disgust, Fear, Frustration, Gratitude,
+#               Joy, Love, Neutral, Sadness, Surprise
 #
 # Performance notes:
 #   - Models are loaded ONCE using Streamlit's @st.cache_resource.
@@ -69,21 +70,16 @@ SENTIMENT_LABEL_MAP = {
 }
 
 # ── Label mapping for the emotion model ──────────────────────────────────────
-# tabularisai/multilingual-emotion-classification returns readable labels
-# directly from its id2label config. We still define a passthrough map so
-# that:
-#   (a) the code is consistent with the sentiment model pattern
-#   (b) any unexpected raw LABEL_N values get passed through unchanged
-#       rather than crashing the app
+# tabularisai/multilingual-emotion-classification
+# Actual label set confirmed from model's id2label config — 11 classes:
+#   Anger, Contempt, Disgust, Fear, Frustration, Gratitude,
+#   Joy, Love, Neutral, Sadness, Surprise
 #
-# Confirmed label set (7 classes):
-#   Joy, Sadness, Anger, Fear, Surprise, Disgust, Neutral
-#
-# Each label also gets an emoji icon used in charts for quick visual scanning.
+# The model returns all-lowercase labels. We map them to Title Case
+# so they match EMOTION_COLORS and EMOTION_ICONS keys exactly.
+# Pass-through entries handle any environment where the model
+# already returns Title Case labels.
 EMOTION_LABEL_MAP = {
-    # Model returns all-lowercase labels — map every one to Title Case
-    # so they match EMOTION_COLORS and EMOTION_ICONS keys exactly.
-    # Full label set confirmed from model's id2label config (11 classes):
     "anger":       "Anger",
     "contempt":    "Contempt",
     "disgust":     "Disgust",
