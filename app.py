@@ -566,3 +566,251 @@ if uploaded_file is not None:
                     use_container_width=True
                 )
         # ── END PHASE 5 ───────────────────────────────────────────────────────
+
+        # ── PHASE 6: Top Positive and Negative Messages ───────────────────────
+        # Shows the individual messages the model was most confident about.
+        # Useful for sanity-checking the model and exploring the data.
+        # sentiment_score = model confidence (0–1), NOT emotional intensity.
+        # ======================================================================
+        st.title("Most Positive and Negative Messages")
+        st.caption(
+            "Messages the sentiment model was most confident about. "
+            "Confidence score = model certainty (0–1), not emotional intensity. "
+            "A score of 0.99 means the model was 99% sure about that label."
+        )
+
+        top_pos, top_neg = helper.top_positive_negative_messages(selected_user, df, n=10)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.header("Top 10 Positive Messages")
+            if top_pos.empty:
+                st.info("No positive messages found.")
+            else:
+                st.dataframe(
+                    top_pos.rename(columns={
+                        "user":            "User",
+                        "date":            "Date",
+                        "message":         "Message",
+                        "sentiment":       "Sentiment",
+                        "sentiment_score": "Confidence"
+                    }),
+                    use_container_width=True
+                )
+
+        with col2:
+            st.header("Top 10 Negative Messages")
+            if top_neg.empty:
+                st.info("No negative messages found.")
+            else:
+                st.dataframe(
+                    top_neg.rename(columns={
+                        "user":            "User",
+                        "date":            "Date",
+                        "message":         "Message",
+                        "sentiment":       "Sentiment",
+                        "sentiment_score": "Confidence"
+                    }),
+                    use_container_width=True
+                )
+
+        st.info(
+            "**Note:** These tables contain real message text from your chat. "
+            "High confidence does not mean the message is more important — "
+            "it only means the model had less doubt about its prediction. "
+            "Short, unambiguous messages (e.g. 'I hate this') often score highest."
+        )
+        # ── END PHASE 6 ───────────────────────────────────────────────────────
+
+        # ── PHASE 7: Sarcasm / Irony Detection ───────────────────────────────
+        # Model: cardiffnlp/twitter-roberta-base-irony
+        # Binary classifier: Sarcastic (irony) | Not Sarcastic (non_irony)
+        # sarcasm_score = model confidence (0–1) for the predicted label.
+        #
+        # Important limitations shown clearly in the UI:
+        #   - Trained on English Twitter, not Hinglish
+        #   - Context-dependent sarcasm ("haan bilkul") often missed
+        #   - Low scores near 0.5 = model is uncertain
+        # =====================================================================
+        st.title("Sarcasm / Irony Detection")
+        st.caption(
+            "Powered by RoBERTa fine-tuned on Twitter irony data. "
+            "Detects irony and sarcasm in messages. "
+            "sarcasm_score = model confidence (0–1) for the predicted label."
+        )
+        st.warning(
+            "**Hinglish limitation:** This model was trained on English Twitter data. "
+            "It detects sarcasm reliably in English messages but may miss "
+            "Hinglish-specific sarcastic patterns like 'haan bilkul' or "
+            "'wah kya baat hai'. Treat results as a statistical signal, "
+            "not a definitive sarcasm classification."
+        )
+
+        sarc_df = df if selected_user == "Overall" else df[df["user"] == selected_user]
+        sarc_df = sarc_df[sarc_df["is_sarcastic"].notna()]
+
+        if sarc_df.empty:
+            st.warning("No sarcasm analysis data found. Re-upload the file to run the model.")
+        else:
+            total_sarc   = len(sarc_df)
+            sarc_count   = int(sarc_df["is_sarcastic"].sum())
+            non_count    = total_sarc - sarc_count
+            sarc_pct     = round(sarc_count / total_sarc * 100, 1)
+            non_pct      = round(non_count  / total_sarc * 100, 1)
+
+            # ── Metric cards ──────────────────────────────────────────────────
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Messages Analyzed", total_sarc)
+            with col2:
+                st.metric("Sarcastic", f"{sarc_pct}%", delta=f"{sarc_count} msgs")
+            with col3:
+                st.metric("Not Sarcastic", f"{non_pct}%", delta=f"{non_count} msgs")
+
+            # ── Distribution bar + pie ─────────────────────────────────────────
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.header("Sarcasm Distribution")
+                sarc_dist = helper.sarcasm_distribution(selected_user, df)
+                fig, ax   = plt.subplots()
+                colors    = ['#e74c3c' if l == 'Sarcastic' else '#95a5a6'
+                             for l in sarc_dist['label']]
+                ax.bar(sarc_dist['label'], sarc_dist['count'], color=colors)
+                plt.xticks(rotation='vertical')
+                st.pyplot(fig)
+
+            with col2:
+                st.header("Sarcasm Proportion")
+                fig, ax = plt.subplots()
+                ax.pie(
+                    sarc_dist['count'],
+                    labels=sarc_dist['label'],
+                    colors=colors,
+                    autopct="%0.2f"
+                )
+                st.pyplot(fig)
+
+            # ── Sarcasm rate by user (Overall only) ───────────────────────────
+            if selected_user == "Overall":
+                st.header("Sarcasm Rate by User")
+                st.caption("% of each user's messages predicted as sarcastic. Min 5 messages to appear.")
+
+                sarc_user_df = helper.sarcasm_by_user(selected_user, df)
+
+                if sarc_user_df.empty:
+                    st.info("Not enough data per user (need ≥ 5 analyzed messages).")
+                else:
+                    fig, ax = plt.subplots()
+                    bar_colors = ['#e74c3c' if r > 20 else '#f39c12' if r > 10 else '#95a5a6'
+                                  for r in sarc_user_df['sarcasm_rate']]
+                    ax.bar(sarc_user_df['user'], sarc_user_df['sarcasm_rate'], color=bar_colors)
+                    plt.xticks(rotation='vertical')
+                    ax.set_ylabel("Sarcasm Rate (%)")
+                    st.pyplot(fig)
+
+                    with st.expander("Show raw counts per user"):
+                        st.dataframe(
+                            sarc_user_df.rename(columns={
+                                "user":             "User",
+                                "sarcastic_count":  "Sarcastic",
+                                "total_analyzed":   "Total Analyzed",
+                                "sarcasm_rate":     "Sarcasm Rate (%)"
+                            }),
+                            use_container_width=True
+                        )
+
+            # ── Sarcasm over time ─────────────────────────────────────────────
+            st.header("Sarcasm Rate Over Time")
+            st.caption("Monthly % of messages predicted as sarcastic.")
+
+            sarc_time_df = helper.sarcasm_over_time(selected_user, df)
+
+            if sarc_time_df.empty:
+                st.info("Not enough data for a timeline.")
+            else:
+                fig, ax = plt.subplots()
+                ax.plot(sarc_time_df["time_label"], sarc_time_df["sarcasm_rate"],
+                        color='#e74c3c', marker='o', label='Sarcasm Rate %')
+                plt.xticks(rotation='vertical')
+                ax.set_ylabel("Sarcasm Rate (%)")
+                ax.legend()
+                st.pyplot(fig)
+
+                with st.expander("Show monthly sarcasm table"):
+                    st.dataframe(
+                        sarc_time_df.rename(columns={
+                            "time_label":   "Month",
+                            "sarcasm_rate": "Sarcasm Rate (%)",
+                            "total":        "Messages Analyzed"
+                        }),
+                        use_container_width=True
+                    )
+
+            # ── Top sarcastic messages ─────────────────────────────────────────
+            st.header("Most Confidently Sarcastic Messages")
+            st.caption(
+                "Messages the model was most confident are sarcastic. "
+                "Includes their predicted sentiment and emotion for context."
+            )
+
+            top_sarc_msgs = helper.top_sarcastic_messages(selected_user, df, n=10)
+
+            if top_sarc_msgs.empty:
+                st.info("No sarcastic messages detected.")
+            else:
+                rename_map = {
+                    "user":          "User",
+                    "date":          "Date",
+                    "message":       "Message",
+                    "sarcasm_score": "Sarcasm Confidence",
+                    "sentiment":     "Sentiment",
+                    "emotion":       "Emotion"
+                }
+                st.dataframe(
+                    top_sarc_msgs.rename(columns={k: v for k, v in rename_map.items()
+                                                  if k in top_sarc_msgs.columns}),
+                    use_container_width=True
+                )
+
+            # ── Sarcasm × Sentiment cross-analysis ────────────────────────────
+            st.header("Sarcasm × Sentiment")
+            st.caption(
+                "How sarcastic messages are distributed across sentiment labels. "
+                "Sarcasm often shows up as Positive sentiment because the model "
+                "reads the surface words, not the ironic intent."
+            )
+
+            cross_sarc = df if selected_user == "Overall" else df[df["user"] == selected_user]
+            cross_sarc = cross_sarc[
+                cross_sarc["is_sarcastic"].notna() &
+                cross_sarc["sentiment"].notna()
+            ].copy()
+            cross_sarc["Sarcasm"] = cross_sarc["is_sarcastic"].map(
+                {True: "Sarcastic", False: "Not Sarcastic"}
+            )
+
+            if cross_sarc.empty:
+                st.info("Not enough data.")
+            else:
+                cross_tbl = pd.crosstab(cross_sarc["Sarcasm"], cross_sarc["sentiment"])
+                sent_order = [s for s in ["Positive", "Neutral", "Negative"]
+                              if s in cross_tbl.columns]
+                cross_tbl  = cross_tbl[sent_order]
+                fig, ax    = plt.subplots()
+                sns.heatmap(cross_tbl, annot=True, fmt="d", cmap="YlOrRd", ax=ax)
+                plt.xticks(rotation='vertical')
+                st.pyplot(fig)
+
+            # ── Disclaimer ────────────────────────────────────────────────────
+            st.info(
+                "**Sarcasm detection limitations:**  \n"
+                "- Model trained on English Twitter — Hinglish sarcasm often missed.  \n"
+                "- Context-dependent phrases ('haan bilkul', 'wah kya baat') are hard.  \n"
+                "- Sarcasm score near 0.5 = model is uncertain — low reliability.  \n"
+                "- Sarcastic messages frequently get Positive sentiment because the  \n"
+                "  sentiment model reads surface words, not ironic intent.  \n"
+                "- These predictions are statistical estimates, not human judgements."
+            )
+        # ── END PHASE 7 ───────────────────────────────────────────────────────

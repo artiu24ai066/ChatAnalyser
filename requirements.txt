@@ -8,21 +8,21 @@ wordcloud
 urlextract
 emoji
 
-# ── New NLP dependencies (Phase 1+) ──────────────────────────────────────────
+# ── NLP dependencies ──────────────────────────────────────────────────────────
 
-# transformers — Hugging Face library that provides the pipeline() API.
-# It downloads and runs the XLM-RoBERTa sentiment and emotion models.
+# transformers — Hugging Face pipeline API.
+# Runs all three models: sentiment, emotion, and sarcasm.
 transformers
 
-# torch — PyTorch, the deep-learning backend that transformers runs on.
-# The models need this to actually do computation.
-# CPU-only version is fine for this project (no GPU required).
+# torch — PyTorch backend required by all transformer models.
 torch
 
-# sentencepiece — tokenizer library required by XLM-RoBERTa models.
-# Without it, the tokenizer will raise an ImportError when loading the model.
+# sentencepiece — tokenizer required by XLM-RoBERTa (sentiment + emotion models).
 sentencepiece
 
-# accelerate — optional but recommended by Hugging Face for faster inference
-# and cleaner device handling. Suppresses several warnings.
+# accelerate — speeds up HuggingFace inference, suppresses device warnings.
 accelerate
+
+# scipy — used internally by transformers for softmax / special functions.
+# Required by cardiffnlp/twitter-roberta-base-irony (sarcasm model).
+scipy

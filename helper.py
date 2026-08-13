@@ -651,3 +651,239 @@ def sentiment_trend(selected_user, df):
     trend['time_label'] = trend['month'].str[:3] + '-' + trend['year'].astype(str)
 
     return trend[['time_label', 'trend_score', 'total']]
+
+
+def top_positive_negative_messages(selected_user, df, n=10):
+    """
+    Return the top-N most confidently Positive and top-N most confidently
+    Negative messages, ranked by the sentiment model's confidence score.
+
+    The sentiment_score column (0.0–1.0) represents how certain the model
+    was about its label — NOT emotional intensity.
+    Example: score=0.98 for Positive means 98% model confidence.
+
+    Parameters
+    ----------
+    selected_user : str
+    df            : pd.DataFrame  (must have sentiment, sentiment_score columns)
+    n             : int  — how many messages per category (default 10)
+
+    Returns
+    -------
+    top_positive : pd.DataFrame
+        Columns: user, date, message, sentiment, sentiment_score
+        Sorted by sentiment_score descending.
+
+    top_negative : pd.DataFrame
+        Same structure for Negative messages.
+    """
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    # Only rows with a valid sentiment prediction
+    df = df[df['sentiment'].notna()].copy()
+    df = df[df['user'] != 'group_notification']
+
+    empty = pd.DataFrame(columns=['user', 'date', 'message', 'sentiment', 'sentiment_score'])
+    if df.empty:
+        return empty.copy(), empty.copy()
+
+    display_cols = ['user', 'date', 'message', 'sentiment', 'sentiment_score']
+    df = df[display_cols].copy()
+    df['sentiment_score'] = df['sentiment_score'].astype(float).round(4)
+
+    top_positive = (
+        df[df['sentiment'] == 'Positive']
+        .sort_values('sentiment_score', ascending=False)
+        .head(n)
+        .reset_index(drop=True)
+    )
+
+    top_negative = (
+        df[df['sentiment'] == 'Negative']
+        .sort_values('sentiment_score', ascending=False)
+        .head(n)
+        .reset_index(drop=True)
+    )
+
+    return top_positive, top_negative
+
+
+def sarcasm_distribution(selected_user, df):
+    """
+    Calculate overall sarcasm distribution for the selected user.
+
+    Returns counts and percentages of sarcastic vs non-sarcastic messages.
+
+    Parameters
+    ----------
+    selected_user : str
+    df            : pd.DataFrame  (must have 'is_sarcastic' column)
+
+    Returns
+    -------
+    result : pd.DataFrame
+        Columns: label (str), count (int), percentage (float)
+        Two rows: 'Sarcastic' and 'Not Sarcastic'
+        Empty DataFrame if no valid data.
+    """
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    df = df[df['is_sarcastic'].notna()]
+    df = df[df['user'] != 'group_notification']
+
+    if df.empty:
+        return pd.DataFrame(columns=['label', 'count', 'percentage'])
+
+    total      = len(df)
+    sarc_count = int(df['is_sarcastic'].sum())
+    non_count  = total - sarc_count
+
+    result = pd.DataFrame({
+        'label':      ['Sarcastic', 'Not Sarcastic'],
+        'count':      [sarc_count, non_count],
+        'percentage': [
+            round(sarc_count / total * 100, 1),
+            round(non_count  / total * 100, 1)
+        ]
+    })
+    return result
+
+
+def sarcasm_by_user(selected_user, df, min_messages=5):
+    """
+    Calculate sarcasm rate (%) per user.
+
+    Parameters
+    ----------
+    selected_user : str
+    df            : pd.DataFrame
+    min_messages  : int  — minimum analyzed messages to include a user
+
+    Returns
+    -------
+    result : pd.DataFrame
+        Columns: user, sarcastic_count, total_analyzed, sarcasm_rate (%)
+        Sorted by sarcasm_rate descending.
+        Empty DataFrame if no valid data.
+    """
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    df = df[df['is_sarcastic'].notna()]
+    df = df[df['user'] != 'group_notification']
+
+    if df.empty:
+        return pd.DataFrame(columns=['user', 'sarcastic_count', 'total_analyzed', 'sarcasm_rate'])
+
+    grouped = (
+        df.groupby('user')
+        .agg(
+            sarcastic_count=('is_sarcastic', 'sum'),
+            total_analyzed=('is_sarcastic', 'count')
+        )
+        .reset_index()
+    )
+
+    # Filter out users below the minimum threshold
+    grouped = grouped[grouped['total_analyzed'] >= min_messages]
+
+    if grouped.empty:
+        return pd.DataFrame(columns=['user', 'sarcastic_count', 'total_analyzed', 'sarcasm_rate'])
+
+    grouped['sarcasm_rate'] = (
+        grouped['sarcastic_count'] / grouped['total_analyzed'] * 100
+    ).round(1)
+
+    grouped['sarcastic_count'] = grouped['sarcastic_count'].astype(int)
+
+    return grouped.sort_values('sarcasm_rate', ascending=False).reset_index(drop=True)
+
+
+def sarcasm_over_time(selected_user, df):
+    """
+    Calculate monthly sarcasm rate (%) over time.
+
+    Parameters
+    ----------
+    selected_user : str
+    df            : pd.DataFrame  (must have 'is_sarcastic', 'year',
+                                   'month_num', 'month' columns)
+
+    Returns
+    -------
+    result : pd.DataFrame
+        Columns: time_label (str), sarcasm_rate (%), total (int)
+        Sorted chronologically.
+        Empty DataFrame if no valid data.
+    """
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    df = df[df['is_sarcastic'].notna()]
+    df = df[df['user'] != 'group_notification']
+
+    if df.empty:
+        return pd.DataFrame()
+
+    trend = (
+        df.groupby(['year', 'month_num', 'month'])
+        .agg(
+            sarcastic_count=('is_sarcastic', 'sum'),
+            total=('is_sarcastic', 'count')
+        )
+        .reset_index()
+    )
+
+    trend['sarcasm_rate'] = (trend['sarcastic_count'] / trend['total'] * 100).round(1)
+    trend = trend.sort_values(['year', 'month_num']).reset_index(drop=True)
+    trend['time_label'] = trend['month'].str[:3] + '-' + trend['year'].astype(str)
+
+    return trend[['time_label', 'sarcasm_rate', 'total']]
+
+
+def top_sarcastic_messages(selected_user, df, n=10):
+    """
+    Return the top-N messages most confidently predicted as sarcastic,
+    along with their sentiment and emotion context.
+
+    Parameters
+    ----------
+    selected_user : str
+    df            : pd.DataFrame
+    n             : int  — number of messages to return (default 10)
+
+    Returns
+    -------
+    pd.DataFrame
+        Columns: user, date, message, sarcasm_score, sentiment, emotion
+        Sorted by sarcasm_score descending.
+        Empty DataFrame if no sarcastic messages found.
+    """
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    df = df[df['is_sarcastic'] == True].copy()
+    df = df[df['user'] != 'group_notification']
+
+    if df.empty:
+        return pd.DataFrame(
+            columns=['user', 'date', 'message', 'sarcasm_score', 'sentiment', 'emotion']
+        )
+
+    # Pull available columns — sentiment/emotion may not always be present
+    cols = ['user', 'date', 'message', 'sarcasm_score']
+    if 'sentiment' in df.columns:
+        cols.append('sentiment')
+    if 'emotion' in df.columns:
+        cols.append('emotion')
+
+    result = (
+        df[cols]
+        .sort_values('sarcasm_score', ascending=False)
+        .head(n)
+        .reset_index(drop=True)
+    )
+    result['sarcasm_score'] = result['sarcasm_score'].astype(float).round(4)
+    return result

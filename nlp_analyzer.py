@@ -406,7 +406,9 @@ def _run_pipeline_in_batches(pipe, texts: list, batch_size: int = BATCH_SIZE,
 # SENTIMENT ANALYSIS
 # ---------------------------------------------------------------------------
 
-def run_sentiment_analysis(df: pd.DataFrame, pipe, progress_bar=None) -> pd.DataFrame:
+def run_sentiment_analysis(df: pd.DataFrame, pipe, progress_bar=None,
+                           progress_offset: float = 0.0,
+                           progress_range: float = 0.5) -> pd.DataFrame:
     """
     Add 'sentiment' and 'sentiment_score' columns to the DataFrame.
     """
@@ -423,7 +425,9 @@ def run_sentiment_analysis(df: pd.DataFrame, pipe, progress_bar=None) -> pd.Data
 
     results = _run_pipeline_in_batches(
         pipe, valid_messages, batch_size=BATCH_SIZE,
-        progress_bar=progress_bar, progress_offset=0.0, progress_range=0.5
+        progress_bar=progress_bar,
+        progress_offset=progress_offset,
+        progress_range=progress_range
     )
 
     for idx, result in zip(valid_indices, results):
@@ -439,7 +443,9 @@ def run_sentiment_analysis(df: pd.DataFrame, pipe, progress_bar=None) -> pd.Data
 # EMOTION ANALYSIS  (Phase 2 — function is ready, call it in Phase 2)
 # ---------------------------------------------------------------------------
 
-def run_emotion_analysis(df: pd.DataFrame, pipe, progress_bar=None) -> pd.DataFrame:
+def run_emotion_analysis(df: pd.DataFrame, pipe, progress_bar=None,
+                         progress_offset: float = 0.33,
+                         progress_range: float = 0.33) -> pd.DataFrame:
     """
     Add 'emotion' and 'emotion_score' columns to the DataFrame.
     """
@@ -456,7 +462,9 @@ def run_emotion_analysis(df: pd.DataFrame, pipe, progress_bar=None) -> pd.DataFr
 
     results = _run_pipeline_in_batches(
         pipe, valid_messages, batch_size=BATCH_SIZE,
-        progress_bar=progress_bar, progress_offset=0.5, progress_range=0.5
+        progress_bar=progress_bar,
+        progress_offset=progress_offset,
+        progress_range=progress_range
     )
 
     for idx, result in zip(valid_indices, results):
@@ -473,45 +481,78 @@ def run_emotion_analysis(df: pd.DataFrame, pipe, progress_bar=None) -> pd.DataFr
 # ---------------------------------------------------------------------------
 
 def enrich_dataframe(df: pd.DataFrame, run_sentiment: bool = True,
-                     run_emotion: bool = True, progress_bar=None) -> pd.DataFrame:
+                     run_emotion: bool = True, run_sarcasm: bool = True,
+                     progress_bar=None) -> pd.DataFrame:
     """
     Orchestrator function. Takes the base DataFrame from preprocessor.py
     and returns an enriched DataFrame with all NLP columns.
 
     Phase 1 : adds sentiment, sentiment_score, extracted_emojis, emoji_count
-    Phase 2 : also adds emotion, emotion_score
+    Phase 2 : adds emotion, emotion_score
+    Phase 7 : adds is_sarcastic, sarcasm_score
+
+    Progress bar is split evenly across however many models run.
 
     Parameters
     ----------
     df            : pd.DataFrame  (output of preprocessor.preprocess())
     run_sentiment : bool
     run_emotion   : bool
-    progress_bar  : st.progress object or None — passed down to batch runner
+    run_sarcasm   : bool  — run sarcasm/irony detection (default True)
+    progress_bar  : st.progress object or None
 
     Returns
     -------
     pd.DataFrame  — same as input but with new NLP columns added
     """
-    # Step 1: Emoji extraction — fast, no model needed
+    import sarcasm_analyzer  # local import keeps module loading lazy
+
+    # Count how many models will run to divide the progress bar evenly
+    models_to_run = sum([run_sentiment, run_emotion, run_sarcasm])
+    slice_size    = 1.0 / models_to_run if models_to_run > 0 else 1.0
+    current_offset = 0.0
+
+    # Step 1: Emoji extraction — fast, no model needed, no progress slice needed
     df = add_emoji_columns(df)
 
     # Step 2: Sentiment
     if run_sentiment:
         pipe = load_sentiment_model()
         if pipe is not None:
-            df = run_sentiment_analysis(df, pipe, progress_bar=progress_bar)
+            df = run_sentiment_analysis(
+                df, pipe,
+                progress_bar=progress_bar,
+                progress_offset=current_offset,
+                progress_range=slice_size
+            )
         else:
             df["sentiment"]       = None
             df["sentiment_score"] = None
+        current_offset += slice_size
 
     # Step 3: Emotion
     if run_emotion:
         pipe = load_emotion_model()
         if pipe is not None:
-            df = run_emotion_analysis(df, pipe, progress_bar=progress_bar)
+            df = run_emotion_analysis(
+                df, pipe,
+                progress_bar=progress_bar,
+                progress_offset=current_offset,
+                progress_range=slice_size
+            )
         else:
             df["emotion"]       = None
             df["emotion_score"] = None
+        current_offset += slice_size
+
+    # Step 4: Sarcasm (Phase 7)
+    if run_sarcasm:
+        df = sarcasm_analyzer.enrich_sarcasm(
+            df,
+            progress_bar=progress_bar,
+            progress_offset=current_offset,
+            progress_range=slice_size
+        )
 
     return df
 
