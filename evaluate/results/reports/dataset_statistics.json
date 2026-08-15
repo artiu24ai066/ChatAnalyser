@@ -1,0 +1,16 @@
+{
+  "total_rows": 10000,
+  "missing_messages": "0",
+  "missing_sentiment": "0",
+  "missing_sarcasm": "0",
+  "duplicate_messages": "23",
+  "sentiment_distribution": {
+    "Positive": 5542,
+    "Negative": 2541,
+    "Neutral": 1917
+  },
+  "sarcasm_distribution": {
+    "false": 5575,
+    "true": 4425
+  }
+}
