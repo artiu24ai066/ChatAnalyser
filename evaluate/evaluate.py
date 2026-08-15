@@ -322,8 +322,16 @@ class WhatsAppNLPEvaluator:
         print("STEP 4: SARCASM ANALYSIS EVALUATION")
         print("="*60)
         
-        y_true = self.predictions['actual_sarcasm']
-        y_pred = self.predictions['predicted_sarcasm']
+        # Clean and convert sarcasm data to boolean
+        y_true = self.predictions['actual_sarcasm'].astype(bool)
+        y_pred = self.predictions['predicted_sarcasm'].astype(bool)
+        
+        # Remove any NaN values
+        mask = ~(pd.isna(self.predictions['actual_sarcasm']) | pd.isna(self.predictions['predicted_sarcasm']))
+        y_true = y_true[mask]
+        y_pred = y_pred[mask]
+        
+        print(f"Evaluating sarcasm on {len(y_true)} clean samples...")
         
         # Calculate all required metrics
         accuracy = accuracy_score(y_true, y_pred)
@@ -347,7 +355,8 @@ class WhatsAppNLPEvaluator:
         # Detailed classification report
         class_names = ['Not Sarcastic', 'Sarcastic']
         print(f"\nDetailed Classification Report:")
-        print(classification_report(y_true, y_pred, target_names=class_names))
+        class_report = classification_report(y_true, y_pred, target_names=class_names)
+        print(class_report)
         
         # Save metrics
         metrics = {
@@ -370,11 +379,11 @@ class WhatsAppNLPEvaluator:
         report_df.to_csv(f"{self.results_dir}/sarcasm/sarcasm_classification_report.csv")
         print(f"Classification report saved to: {self.results_dir}/sarcasm/sarcasm_classification_report.csv")
         
-        # Create and save confusion matrix
+        # Create and save sarcasm confusion matrix PNG
         self.create_confusion_matrix(
             y_true, y_pred,
             title="Sarcasm Detection Confusion Matrix",
-            labels=class_names,
+            labels=['Not Sarcastic', 'Sarcastic'],
             save_path=f"{self.results_dir}/sarcasm/sarcasm_confusion_matrix.png"
         )
         
