@@ -1,23 +1,23 @@
 message,sentiment,is_sarcastic
 Isme kucch question hai jo tum try kar skte ho,Neutral,FALSE
 Agar karna ho to,Neutral,FALSE
-Guyss room pe hu aajao,Positive,FALSE
+Guyss room pe hu aajao,Neutral,FALSE
 Do jane chal ke aaye,Neutral,FALSE
 Usse acha ek Jan aaja,Neutral,FALSE
-süsse Träume,Neutral,FALSE
+süsse Träume,Positive,FALSE
 Tere room me mtb aa raha hai?,Neutral,FALSE
 Bas sone ja rhi hu,Neutral,FALSE
 Room mai mtb kaise aayega,Neutral,FALSE
 Mtb mai room hai toh,Neutral,FALSE
 Library card kab Dene chalna hai?,Neutral,FALSE
-Next holii mein rang lagayenge aap ko 🌚💗,Positive,TRUE
+Next holii mein rang lagayenge aap ko 🌚💗,Positive,FALSE
 Arey next ki kya zaroorat abhi aane ke baad bhi khelenge🎉🤗,Positive,FALSE
-Atankwaadiiii,Negative,TRUE
+Atankwaadiiii,Neutral,FALSE
 Kya baat haiii,Positive,FALSE
 Nahiiiii haaar sache bau j gando chhhe... Please change karo yaaar😭,Negative,FALSE
 U never know,Neutral,FALSE
 I gonna buy a mask and wear it everywhere whenever I am with you😡,Negative,TRUE
-Guyss opportunity to gain 50 rupees,Positive,TRUE
+Guyss opportunity to gain 50 rupees,Positive,FALSE
 CSE ke naam pe dhbbe logo ka aaj ka 4-5 wala lecture bhi cancel ho gaya🤩🤩🤩🤩,Positive,TRUE
 Idhr DELD ki bkl lab karni hain attend,Negative,FALSE
 Aise hi jayenge,Neutral,FALSE
@@ -33,18 +33,18 @@ Mere sath kisi ne bhar liya bhai 😭💀,Negative,FALSE
 Ek kaam karte hai tum log saath le lena aur woh jo aur ek bandi hai uska internal setting jo ho raha ho theek nahi toh mere saath bhej dena,Neutral,FALSE
 Either single or double already filled hata😭,Negative,FALSE
 Sab kab aa rahe hostel ?,Neutral,FALSE
-Vah vahhh,Positive,TRUE
+Vah vahhh,Neutral,TRUE
 Sab frnds ko bol dena 😭😭,Neutral,FALSE
 😭😭nahi ho sakta,Negative,FALSE
 Bilkul naa hai🥲,Negative,FALSE
 Ohhh sorry galat jageh bhej diya,Neutral,FALSE
-Chal chal 😂,Positive,FALSE
+Chal chal 😂,Neutral,FALSE
 Where are u guys 🧐👀,Neutral,FALSE
-Mere room mai hai mai aur Pratiksha ....aaja jaldi,Positive,FALSE
+Mere room mai hai mai aur Pratiksha ....aaja jaldi,Neutral,FALSE
 Chal ab mereko dekh ne de,Neutral,FALSE
 Train mai download hi kar rahi thi,Neutral,FALSE
 Haan to P&C se total 3 combination bante haii...😅,Neutral,FALSE
-dil tham ke bedhiye bhaiyo and baheno..,Positive,TRUE
+dil tham ke bedhiye bhaiyo and baheno..,Neutral,FALSE
 ye to mazak thaa,Neutral,FALSE
 okayy okayy.. just check kar trahi thi ki online hai na log..,Neutral,FALSE
 okay.. finally.. result aa raha haii,Positive,FALSE
@@ -54,10 +54,10 @@ Wo to nahi pata . Mene padha but kahi dates likhi hi nahi haii..,Neutral,FALSE
 Change karna ho toh i can use my other email id ig,Neutral,FALSE
 Course pe registration kar lena sab .,Neutral,FALSE
 That I don't know,Neutral,FALSE
-Ha. Sahi pakde haii😂😂,Positive,TRUE
-Yaaar tu pagal ho gyi haii kya,Negative,TRUE
+Ha. Sahi pakde haii😂😂,Positive,FALSE
+Yaaar tu pagal ho gyi haii kya,Negative,FALSE
 Tu theek toh hai na,Neutral,FALSE
-Haaa bohot jaldi aagyi,Positive,TRUE
+Haaa bohot jaldi aagyi,Neutral,TRUE
 Mujhe tumse pyaar ho gya hai om❣️❣️❣️,Positive,FALSE
 Haaa woh bas tujhse hi pyaar karta hai na 😒😒😒,Negative,TRUE
 Papa mere taraf se gai ko 1 kela khila do,Neutral,FALSE
@@ -70,54 +70,54 @@ Chinha nhi emoji aur yeh emoji gaali dene ka hai,Neutral,FALSE
 "गलत बात है,कुछ खाया पिया करो।",Positive,FALSE
 Khane pine ki zarurat nahi hai,Negative,TRUE
 Kyuki bhai mai isme zyada acchi lag rahi hu,Positive,FALSE
-This is a man world is looking for💫,Positive,TRUE
+This is a man world is looking for💫,Neutral,TRUE
 To laugh at how brainless he is 😂😂😂,Negative,TRUE
 Jalwaa hai bhai mera,Positive,FALSE
-Any super intelligent person only can take the risk with you on highway 😜,Positive,TRUE
-Mai anjali ki behen patanjali hu @⁨Unknown user⁩,Neutral,TRUE
+Any super intelligent person only can take the risk with you on highway 😜,Negative,TRUE
+Mai anjali ki behen patanjali hu @⁨Unknown user⁩,Neutral,FALSE
 Okk considering I am living in a family of idiots I'll go by myself then,Negative,TRUE
 No one welcomed me😞🥹😞🤬😡,Negative,FALSE
 Ye kaam 1st sem me kar chuki hu mai bohot 😂,Positive,FALSE
-Bhaiii ❤️‍🔥 greatest comeback to point in the history ❤️‍🔥❤️‍🔥🔥🔥,Positive,TRUE
+Bhaiii ❤️‍🔥 greatest comeback to point in the history ❤️‍🔥❤️‍🔥🔥🔥,Positive,FALSE
 Aise manipulative cheeze mai hi karti hu :),Negative,TRUE
 Meri mummy teri mummy ko call ki,Neutral,FALSE
 Aunty ko bolna zyada khana na pack kare,Neutral,FALSE
 Subject hi to pach rahi hu,Negative,TRUE
 Chal chal nikal🥴,Negative,FALSE
 im not gonna think about it tho hopefully 😭,Neutral,FALSE
-usse shayad long weekday chahiye tha (long weekend bahut door hai) 😭😂,Neutral,TRUE
+usse shayad long weekday chahiye tha (long weekend bahut door hai) 😭😂,Neutral,FALSE
 Connector mere pass hai,Neutral,FALSE
 Chahiye kya abhi tujhe,Neutral,FALSE
-Aa gaye hum room pe bhi,Positive,FALSE
+Aa gaye hum room pe bhi,Neutral,FALSE
 Bhai ye kya chal raa h Har roz tt change 🥲,Negative,FALSE
 kal ka bata dena,Neutral,FALSE
 Kyu tension le raha hai,Neutral,FALSE
-Uski attendance 100% se kam ho jaayegi,Negative,TRUE
+Uski attendance 100% se kam ho jaayegi,Neutral,TRUE
 "Abe sone ka smj aaye na phir , end time pe 8:30 hogya toh🥲",Neutral,FALSE
 Bhai 2 min ruk jaya kro type krne me time lgta h 🥲,Negative,FALSE
-Never thought I would sleep in an economics class,Negative,TRUE
+Never thought I would sleep in an economics class,Neutral,TRUE
 "Bro should stawph teaching, join bjp atp and promote Vimal there",Negative,TRUE
 Inglisss bhi Modi jesi haii🤓🤓,Negative,TRUE
-Itna formal kyu bol raha hai 😂,Neutral,TRUE
+Itna formal kyu bol raha hai 😂,Neutral,FALSE
 Dinesh: tumne heuristic underestimate kiya hai... Isiliye wrong,Negative,FALSE
 Bhai marks ka i dont care but argument toh wrong mat do 😂,Negative,FALSE
 g=5 he toh tumne h ka sum= 4 kyu liya hai,Neutral,FALSE
 Victim blaming is what indians are good at doing 👄💅,Negative,TRUE
-Aadhe ghante tak wahi boli... Thode se bewakoof ho kya ashutosh bhai,Negative,TRUE
+Aadhe ghante tak wahi boli... Thode se bewakoof ho kya ashutosh bhai,Negative,FALSE
 Ye baat sir ko bolni chajye thi n bhai,Neutral,FALSE
 Aaj bohot jaldi aa gaye,Negative,TRUE
-It's too hot outside,Neutral,FALSE
+It's too hot outside,Negative,FALSE
 Tutorial 2 ke questions bhejo....,Neutral,FALSE
 Surveying ke,Neutral,FALSE
 Tutorial hi nhi diya ki questions hi nhi hai tumhare paas??,Neutral,FALSE
 Aacha fir thik hai,Positive,FALSE
 Bhai Teri aankho ke paani ke wajah se hi baarish ho rhi hai 😂,Positive,TRUE
-Isliye meet ka time badalna pada,Neutral,TRUE
-😂😂Arre,Positive,FALSE
+Isliye meet ka time badalna pada,Neutral,FALSE
+😂😂Arre,Neutral,FALSE
 Print kon kara rha h,Neutral,FALSE
 Class nhi hai exam hai 5:30 pm tk...,Neutral,FALSE
 Tu sun ki tarah chamak rha tha isliye aankhe band kar li,Negative,TRUE
-Lanka laga de😂,Positive,FALSE
+Lanka laga de😂,Neutral,FALSE
 Nahi likha jayda yaar,Negative,FALSE
 Nhi aayenge,Negative,FALSE
 Ab jo bhi aa rahe hai laptop lekar aana,Neutral,FALSE
@@ -126,22 +126,22 @@ Bohot jaldi nahi ho jayega,Neutral,FALSE
 Add one more option,Neutral,FALSE
 Kya yh celebration deserve krta hai,Neutral,FALSE
 Abe sab ajana likhte hai,Neutral,FALSE
-Koi saath chal rha ho to main jane ko ready hu,Positive,FALSE
+Koi saath chal rha ho to main jane ko ready hu,Neutral,FALSE
 Saaf safai rakhna,Neutral,FALSE
-Makasad pura Krna h toh ek bhi clue bachna nhi chahiye 🙂🙂😂,Negative,TRUE
+Makasad pura Krna h toh ek bhi clue bachna nhi chahiye 🙂🙂😂,Neutral,TRUE
 Nahi ana chahiye,Negative,FALSE
-Apka toh bahut zor se yes hein,Positive,TRUE
-Tujhse na ho payega chorde tu,Negative,TRUE
+Apka toh bahut zor se yes hein,Neutral,TRUE
+Tujhse na ho payega chorde tu,Negative,FALSE
 Ok sir,Neutral,FALSE
 "Shuruwat hi cancellation se, kya baat hai😂",Negative,TRUE
 "Bhai sahab ko yahi aata hai, kaam toh ho nhi rha inse",Negative,TRUE
 Agle tenure mai video se hi kaam chalayenge,Negative,TRUE
 Yeh sab kya chal raha hai,Neutral,FALSE
 I said shree ram saw not me,Neutral,FALSE
-Phir kaha aise seniors milenge jinki sledging karnw mein maza ata hein😂,Positive,TRUE
+Phir kaha aise seniors milenge jinki sledging karnw mein maza ata hein😂,Positive,FALSE
 Mujhe nahi marenge pyaare seniors hein,Positive,TRUE
 Request hein but compulsory hein,Neutral,TRUE
-Waaaah kya jagah dhundi hai,Positive,TRUE
+Waaaah kya jagah dhundi hai,Positive,FALSE
 yeh jagah aur idhar ke log we remember,Neutral,TRUE
 Sir aap ni dikh rhe....kidhr ho???,Neutral,FALSE
 Amusement park me hun ... aagy bs,Positive,FALSE
@@ -158,7 +158,7 @@ and we will focus on only software wli problems,Neutral,FALSE
 I am personally more attracted towards smart education,Positive,FALSE
 who wants to be team leader?,Neutral,FALSE
 Kuch bhi rakh de chatgpt karke.. waise bhi meri choice bahot buri hoti hai🥲,Negative,TRUE
-Aree Aree bhai meri bhi esi hi choice h,Neutral,TRUE
+Aree Aree bhai meri bhi esi hi choice h,Neutral,FALSE
 Haan achchaa haiii,Positive,FALSE
 ohh phir to achha h,Positive,FALSE
 abhi nhi jaa rhe birthday m ?,Neutral,FALSE
@@ -176,10 +176,10 @@ bki mujhe to mstt lg rhi h 🥰,Positive,FALSE
 "ye aur kr do pls....mere m kuch dikkat h syd, kbse try kr rhi hu, nhi upload ho rha",Negative,FALSE
 kl hi h presentation in morning....7 teams h apni theme m,Neutral,FALSE
 hr panel k diff judges h,Neutral,FALSE
-I am free anytime today,Positive,FALSE
+I am free anytime today,Neutral,FALSE
 aree yrr sorry,Negative,FALSE
 i was sleeping without alarm,Neutral,FALSE
-Koi nahi aaja,Positive,FALSE
+Koi nahi aaja,Neutral,FALSE
 ha bss ayi 2 min,Neutral,FALSE
 ek last brr practice lr lete h,Neutral,FALSE
 and sb saath m photo bhi le lete h 😁,Positive,FALSE
@@ -192,62 +192,62 @@ We don't use insta🙃🙃,Neutral,TRUE
 Ho gya apna 🥳🥳,Positive,FALSE
 yrr itni khushi kbhi nhi hui aaj tk 🥹🎉🎉,Positive,FALSE
 pta nhi yrr... puchte h kisi se,Neutral,FALSE
-form submitted 👍,Positive,FALSE
+form submitted 👍,Neutral,FALSE
 They were telling we can do little changes in ppt,Neutral,FALSE
 and bhut khali khali ppt lg rhi h apni,Negative,FALSE
 Rukk dhundte haii,Neutral,FALSE
-Okkkkayyy... that's why may be we need to change..,Neutral,TRUE
+Okkkkayyy... that's why may be we need to change..,Neutral,FALSE
 Meko nahi dikh raha🥲🥲,Negative,FALSE
-Aapke irade thik nahi lag rahe🌚🌚,Negative,TRUE
+Aapke irade thik nahi lag rahe🌚🌚,Neutral,TRUE
 Same goes for you,Neutral,TRUE
-Hamre irade to bahot nek hai..🌝,Positive,TRUE
+Hamre irade to bahot nek hai..🌝,Neutral,TRUE
 Wo to jo 748 m rehta hai unko pata hi hai,Neutral,TRUE
 to confirm btao...tum log jaa rhe ho kl ?,Neutral,FALSE
 Sorry mai thoda bahar jaati hu ......,Neutral,FALSE
 Kaha?,Neutral,FALSE
-Marne,Negative,TRUE
-Nahi sorry mai bahaar jaake marne wali hu toh....,Negative,TRUE
+Marne,Neutral,TRUE
+Nahi sorry mai bahaar jaake marne wali hu toh....,Neutral,TRUE
 Toh chalna padega ready hoke pura,Neutral,FALSE
 Yeh ghar ka grp nhi hai sih ka hai,Neutral,FALSE
-Itni bhi khrab english nhi ki nsm bhi galat likhu🥱,Negative,TRUE
-Ye bat gharki he ki ni ata,Negative,TRUE
+Itni bhi khrab english nhi ki nsm bhi galat likhu🥱,Neutral,TRUE
+Ye bat gharki he ki ni ata,Neutral,TRUE
 "Kya bol rahe ho, samaj nahi aa raha hai",Negative,FALSE
 "sunoo.... modification btao kya kya krna h, but jyada mt btana....Thak gye bnate bnate ise",Negative,FALSE
-Bhai kya banai hai,Negative,TRUE
+Bhai kya banai hai,Positive,FALSE
 Aur kuch zaroori nhi hai,Neutral,FALSE
-Bas pray ki ye select na ho,Negative,TRUE
-ho jani chiye re...tumhari wli bhejo tb pray krungi,Positive,TRUE
-Where were you till now?,Positive,FALSE
-Kaha mar gayi thi,Negative,TRUE
-I'm getting late for the class yaar,Positive,FALSE
+Bas pray ki ye select na ho,Negative,FALSE
+ho jani chiye re...tumhari wli bhejo tb pray krungi,Neutral,TRUE
+Where were you till now?,Neutral,FALSE
+Kaha mar gayi thi,Neutral, False
+I'm getting late for the class yaar,Negative,FALSE
 Yaar mai bhi kya karne lag gayi thi 😩,Neutral,FALSE
-"Ha ha, as If I have done pdf in this subject",Negative,TRUE
-I Don't know anything yaar,Positive,FALSE
-"Are mai sundar hi hoon, bacchpan se",Neutral,TRUE
-Gum toh hai mere pass,Neutral,TRUE
-Bhagwannnn!,Negative,TRUE
+"Ha ha, as If I have done phd in this subject",Neutral,TRUE
+I Don't know anything yaar,Neutral,FALSE
+"Are mai sundar hi hoon, bacchpan se",Positive,FALSE
+Gum toh hai mere pass,Neutral,FALSE
+Bhagwannnn!,Neutral,FALSE
 Ye kand sunne ke baad toh meri mummy bohot pyaar karegi bhai mujhe,Negative,TRUE
-It's pouring cats and dogs outside,Neutral,FALSE
-Me? Mad? I'm the happiest I've ever been,Negative,TRUE
+It's pouring cats and dogs outside,Negative,FALSE
+Me? Mad? I'm the happiest I've ever been,Positive,TRUE
 Thanks for helping me out there,Positive,FALSE
 "Gee, thanks for helping me out there",Negative,TRUE
-She's going to cancel the exam because you haven't studied,Negative,TRUE
+She's going to cancel the exam because you haven't studied,Neutral,TRUE
 Jaldi bahar aa,Neutral,FALSE
 That is such a pretty skirt 🥰,Positive,FALSE
-Nahi mai toh africa se bol rahi hu,Negative,TRUE
+Nahi mai toh africa se bol rahi hu,Neutral,TRUE
 "Sorry, wo kal bhul gayi thi send karna",Neutral,FALSE
 acha exam ke baad thodi der baad baat karte hain 😂,Neutral,FALSE
 yaar phir se kaam fail ho gaya 😅,Negative,FALSE
-ofcourse you're right. How could I have forgotten you're always right?,Positive,TRUE
-Congratulations 👏 you have managed to make something simple complicated,Positive,TRUE
+ofcourse you're right. How could I have forgotten you're always right?,Negative,TRUE
+Congratulations 👏 you have managed to make something simple complicated,Negative,TRUE
 I love how confidently you say things you have absolutely no idea about.,Negative,TRUE
 "I’d agree with you, but then we’d both be wrong.",Negative,TRUE
 "Koi nahi, galti sabse hoti hai… tumse thodi zyada hoti hai",Negative,TRUE
-"Haan bhai, tumhari baat sunke meri life set ho gayi. Thanks.",Positive,TRUE
+"Haan bhai, tumhari baat sunke meri life set ho gayi. Thanks.",Negative,TRUE
 Tumhara logic dekh ke calculator bhi confuse ho gaya.,Negative,TRUE
 Accha? Tumhe ye ab yaad aaya? Wah kya memory hai!,Negative,TRUE
 Aaj toh meri kismat bhi mujhse competition kar rahi hai 😭,Negative,TRUE
-Tu itna jaldi reply karta hai ki notification dekh ke surprise ho jaati hu 😂,Positive,TRUE
+Tu itna jaldi reply karta hai ki notification dekh ke surprise ho jaati hu 😂,Negative,TRUE
 Mujhe lagta hai aaj main bina coffee ke bhi survive kar lungi ☕😌,Positive,FALSE
 "Wah, kya memory hai tumhari, birthday bhi yaad nahi raha 😭👏",Negative,TRUE
 Bhai ye lecture khatam hone ka naam hi nahi le raha 😩,Negative,FALSE
@@ -335,13 +335,13 @@ Tumhari advice follow karke ab toh situation aur interesting ho gayi 💀,Negati
 Aaj weather itna mast hai ki room se bahar jaane ka mann kar raha hai 🌤️,Positive,FALSE
 "Haan bhai, bilkul time pe aaya hai tu… sirf 40 minute late 😂",Negative,TRUE
 Mujhe bas ek baar ye assignment khatam karna hai phir chain milega 😭,Negative,FALSE
-"Kya zabardast idea diya hai, ab bas koi isse implement bhi kar de 😭👏",Positive,TRUE
+"Kya zabardast idea diya hai, ab bas koi isse implement bhi kar de 😭👏",Neutral,TRUE
 "Sorry yaar, phone silent pe tha isliye reply late ho gaya 🥲",Neutral,FALSE
 "Main toh bas five minute ke liye leti thi, seedha do ghante baad uthi 😭",Negative,FALSE
 "Wah, tumhari memory toh kamaal ki hai, kal ki baat aaj yaad aa gayi 😂",Negative,TRUE
 Aaj library chalna hai kya? Mereko bhi thoda padhna hai 📚,Neutral,FALSE
 "Bhai ye group mein 200 messages kisne kar diye, ek ghante mein hi 😭",Negative,FALSE
-"Haan bilkul, tumhare bina toh ye kaam impossible hi tha 😌😂",Positive,TRUE
+"Haan bilkul, tumhare bina toh ye kaam impossible hi tha 😌😂",Neutral,TRUE
 "Mujhe laga meeting short hogi, yaha toh puri shaam nikal gayi 🥲",Negative,FALSE
 "Tum log enjoy karo, main yaha assignment ke saath relationship mein hu 😭",Negative,TRUE
 Acha toh ab yaad aaya ki kal submission hai? Very nice 😂,Negative,TRUE
@@ -358,7 +358,7 @@ Yaar exam itna tough tha 😭,Negative,FALSE
 "Wah bhai, kya timing hai tumhari 😂",Neutral,TRUE
 Mujhe 5 minute bolke 2 ghante laga diye 🙃,Negative,TRUE
 Kal movie dekhne chale? 🍿,Neutral,FALSE
-"Haan haan, tum toh bahut time ke punctual ho 😂",Neutral,TRUE
+"Haan haan, tum toh bahut time ke punctual ho 😂",Negative,TRUE
 Aaj mummy ne meri favourite sabzi banayi ❤️,Positive,FALSE
 "Kya amazing internet hai, ek message bhejne mein 10 min lag rahe hain 🙂",Negative,TRUE
 "Bhai result aa gaya, pass ho gaya 😭❤️",Positive,FALSE
@@ -371,32 +371,32 @@ Bhai kitni baar same cheez samjhau 😑,Negative,FALSE
 "Kal milte hain, aaj thoda busy hu yaar 😅",Neutral,FALSE
 Kya mast day tha aaj 😍😂❤️,Positive,FALSE
 "Hello, Tumhari team bn gyi ?",Neutral,FALSE
-bhut dino baad yaad kiya,Positive,TRUE
+bhut dino baad yaad kiya,Neutral,FALSE
 have u completed the dbms assignment?,Neutral,FALSE
 "Mummy, aaj pta h Mne new shoes buy kiye h🙌",Positive,FALSE
 Congo bro 🎊🎉,Positive,FALSE
 Time kyu lagega,Neutral,FALSE
 Yr maine cap ghumadi😭,Negative,FALSE
 Brahm kamal saal me ek baar khilta hai,Neutral,FALSE
-Nhi aaj attendance hui,Positive,FALSE
+Nhi aaj attendance hui,Neutral,FALSE
 Sun n structural analysis k tutorial lekr aama,Neutral,FALSE
-No one can use if you are useless,Negative,FALSE
+No one can use if you are useless,Neutral,FALSE
 If your enemy can predict your next move then don't move😌,Neutral,FALSE
 You can't guess my strategy cause i don't have one🙂‍↔️,Neutral,TRUE
-"bhai, tu toh world's best driver hai, roz gaadi thokta hai",Neutral,TRUE
-Mai ghr ja rhi hu🥹,Positive,FALSE
-College mai attu zaattu logo ke sath mai nhi ghumti 😏,Negative,TRUE
-Khana khaya lekin mess ka ghr ka nhi😁,Negative,TRUE
+"bhai, tu toh world's best driver hai, roz gaadi thokta hai",Negative,TRUE
+Mai ghr ja rhi hu🥹,Neutral,FALSE
+College mai attu zaattu logo ke sath mai nhi ghumti 😏,Negative,False
+Khana khaya lekin mess ka ghr ka nhi😁,Neutral,FALSE
 All the best aapke project ke liye ee💌🫰🏻👍🏻,Positive,FALSE
 Iam going to my homeeee,Positive,FALSE
 All the best guyzzz,Positive,FALSE
 Fallen to rise,Positive,FALSE
 Happy Independence Day,Positive,FALSE
-Kya mess mai food bhi kathehai tum log?,Positive,TRUE
+Kya mess mai khana bhi kathe ho tum log?,Neutral,FALSE
 Arey bhai thu tho topper hai bhol ke mere exams ke preparation karaab kar diya usne,Negative,TRUE
-Ye sab kyu karna hai bhaii😭mereko ghar jana hai😭😭,Neutral,FALSE
-Ma'am is so friendly with students that she forgot she's in lab and cracking jokes and lol😂,Positive,TRUE
-"Google ne forms ke neeche ""never submit passwords through Google forms"" mai kaisa dikh raha hai aapko😒",Neutral,FALSE
+Ye sab kyu karna hai bhaii😭mereko ghar jana hai😭😭,Negative,FALSE
+Ma'am is so friendly with students that she forgot she's in lab and cracking jokes and lol😂,Positive,FALSE
+"Google me forms ke neeche ""never submit passwords through Google forms"" mai kaisa dikh raha hai aapko😒",Neutral,FALSE
 are badshaah rao ko group se hata na bakvaas kar raha hai,Negative,FALSE
 Hastin ko wapas laaya jaye,Neutral,FALSE
 Mene to hastin ko admin banaya tha bhai nikal deta,Neutral,FALSE
@@ -408,8 +408,8 @@ Mess ka khana aaj bohot acha tha actually,Positive,FALSE
 Arrey yaar mera phone charge hi nahi ho rha 😩,Negative,FALSE
 Hostel mein wifi ki speed dekhi hai? Ferrari se bhi tez 🙃,Negative,TRUE
 Bro kal ka exam postpone ho gaya thank god,Positive,FALSE
-Tumhare notes kitne organized hain yaar 😌,Negative,TRUE
-Library mein jagah mil gayi miracle!,Positive,FALSE
+Tumhare notes kitne organized hain yaar 😌,Positive, FALSE
+Library mein jagah mil gayi miracle!,Positive,TRUE
 Arre canteen mein queue dekho kitni choti hai aaj 😏,Negative,TRUE
 Yaar project complete kar liya on time ❤️,Positive,FALSE
 Delhi mein pollution level normal hai aaj 🤡,Negative,TRUE
@@ -428,13 +428,13 @@ Bhai tera dance performance bohot acha tha 👏,Positive,FALSE
 Placement cell ki guidance dekhi hai kitni helpful hai 🙃,Negative,TRUE
 Mess uncle ne extra sabzi de di aaj,Positive,FALSE
 Yaar tuition fees bharna pada again 😩,Negative,FALSE
-Weekend plans cancel ho gaye rain ki wajah se,Neutral,FALSE
+Weekend plans cancel ho gaye rain ki wajah se,Negative,FALSE
 Bro ye new cafe ka coffee bohot tasty hai,Positive,FALSE
 Internet banking down hai exactly jab zaroorat thi 😂,Negative,TRUE
 Chemistry lab ka experiment successful rha finally,Positive,FALSE
 College ka AC system kitna efficient hai summer mein 🔥,Negative,TRUE
 Yaar movie tickets book kar li aaj wali show ki,Neutral,FALSE
-Professor ne exactly on time class start kiya 😏,Negative,TRUE
+Professor ne exactly on time class start kiya 😏,Positive,FALSE
 Bhai help kar diya project mein thanks yaar ❤️,Positive,FALSE
 Laundry wala exactly time pe kapde de diya 🤡,Negative,TRUE
 Metro mein seat mil gayi rush hour mein,Positive,FALSE
@@ -442,7 +442,7 @@ Canteen ka uncle ne bill mein discount de diya,Positive,FALSE
 Yaar phone ki battery life dekho kitni amazing hai 😌,Negative,TRUE
 Roommate ne room saaf kar diya without asking,Positive,FALSE
 College ka placement record iss saal dekho 🙃,Negative,TRUE
-Bhai concert ka ticket mil gaya black mein,Neutral,FALSE
+Bhai concert ka ticket mil gaya black mein,Positive,FALSE
 Professor ka feedback bohot constructive tha assignment pe,Positive,FALSE
 ATM mein cash available tha month end mein miracle 😂,Negative,TRUE
 Yaar group study session productive rha bohot,Positive,FALSE
@@ -453,7 +453,7 @@ College ka infrastructure dekho kitna world class hai 🥲,Negative,TRUE
 Yaar finally weekend aa gaya relax kar sakte hain,Positive,FALSE
 "Yaar aaj lecture bunk karte hai, mann nahi kar rha jaane ka",Neutral,FALSE
 "Wah professor, itni jaldi result nikal diya aapne, sirf 2 mahine lagaye 👏",Negative,TRUE
-"Mess mein aaj paneer tha, itna acha laga khake 😭😭",Negative,FALSE
+"Mess mein aaj paneer tha, itna acha laga khake 😭😭",Positive,FALSE
 Bhai teri presentation dekh ke laga tune raat bhar prepare ki thi 😏,Negative,TRUE
 "Congrats yaar internship mil gayi tujhe, bahut hakdaar hai tu 🎉❤️",Positive,FALSE
 Assignment ka deadline kal h aur maine ek line bhi nahi likhi 🤡,Negative,FALSE
@@ -473,7 +473,7 @@ Maine socha tha exam easy hoga par pura paper hi alag chapter se aaya 💀,Negat
 "Wah teacher, extension diya assignment ke liye, bahut generous ho aap 👏",Negative,TRUE
 "Maa ne paise bheje h, ab thoda relax feel ho rha h",Positive,FALSE
 "Itna sunder handwriting h teri, doctor ban sakta h tu 😏",Negative,TRUE
-"Aaj mess mein khana time pe mil gaya, chamatkar ho gaya",Positive,TRUE
+"Aaj mess mein khana time pe mil gaya, chamatkar ho gaya",Positive,FALSE
 "Kal raat ko neend hi nahi aayi, phone chalate reh gaya",Negative,FALSE
 Bhai tu late aaya but itna calm h jaise pura din free tha 😂,Negative,TRUE
 "Yaar mujhe lagta h main is subject mein fail ho jaunga, itna tough h",Negative,FALSE
@@ -483,14 +483,14 @@ Bhai tu late aaya but itna calm h jaise pura din free tha 😂,Negative,TRUE
 "Roommate ne bola subah utha dega, 2 ghante late uthaya 🤡",Negative,TRUE
 "Kal ka trip bahut mast raha, sab enjoy kiya",Positive,FALSE
 Itni fast internet speed h yaha ki ek page load hone mein 5 minute lagte h 😭,Negative,TRUE
-"Bhai exam ke result aaye, thoda tension h abhi",Neutral,FALSE
+"Bhai exam ke result aaye, thoda tension h abhi",Negative,FALSE
 Wah kitna acha socha tumne group project last night complete karne ka 👏,Negative,TRUE
 "Aaj kal ka schedule bahut hectic h, breathe karne ka time nahi milta",Negative,FALSE
-Tere jokes sunke lagta h comedy field mein try karna chahiye tujhe 😂,Neutral,TRUE
+Tere jokes sunke lagta h comedy field mein try karna chahiye tujhe 😂,Positive,FALSE
 "Sach mein bahut proud hu tujhpe, itni mehnat ki h tune project mein 🥰",Positive,FALSE
 "Kya baat h, hostel ka paani aaj bhi nahi aaya, roz ka naya surprise 😩",Negative,TRUE
 "Kal se gym join kar rha hu, is baar serious hu",Neutral,FALSE
-Bhai teri planning dekh ke lagta h tu future predict kr sakta h 😏,Neutral,TRUE
+Bhai teri planning dekh ke lagta h tu future predict kr sakta h 😏,Positive,FALSE
 "Aaj bhi late aaya class mein, sorry yaar traffic tha",Neutral,FALSE
 "Itna acha suggestion diya tune, bilkul wahi jo maine pehle try kiya tha 😌",Negative,TRUE
 "Maine socha exam postpone hoga par nahi hua, ab tension double h",Negative,FALSE
@@ -504,9 +504,9 @@ Bhai teri packing dekh k lagta h tu 6 mahine ke liye ja rha h weekend trip pe �
 Ladaai toh humare saath hi hogi pyaar toh kisi aur ke saath chal raha hai🥰🥰🥰,Negative,TRUE
 Everything is being recorded👀👀,Neutral,FALSE
 "Aap aage chalo, hum aapke sath haii✊",Positive,FALSE
-Marvaoge tum log😭,Negative,TRUE
-Next bari humari hai,Neutral,TRUE
-Tayar rehna sabhi,Positive,TRUE
+Marvaoge tum log😭,Negative,FALSE
+Next bari humari hai,Neutral,FALSE
+Tayar rehna sabhi,Neutral,FALSE
 Bhaiii Sahab!!!!,Neutral,FALSE
 acha exam ke baad thodi der baad baat karte hain 😂,Neutral,FALSE
 yaar phir se kaam fail ho gaya 😅,Negative,FALSE
@@ -529,33 +529,33 @@ dekho notes group mein daal dena bas,Neutral,FALSE
 placement mein kahan ho tum abhi,Neutral,FALSE
 sun aaj college ka report abhi ready nahi hai bro,Neutral,FALSE
 "sun offer mil gaya yaar, so happy 😅",Positive,FALSE
-"dekho great work as always, especially the part where it failed 😭",Positive,TRUE
+"great work as always, especially the part where it failed 😭",Negative,TRUE
 yaar college ke baad payment abhi pending hai yaar,Neutral,FALSE
-arre aaj gym mein workout mast raha assignment ka 😅,Positive,FALSE
+arre aaj gym mein workout mast raha 😅,Positive,FALSE
 "dekho wow, ye bhi ek approach hai",Neutral,TRUE
-sun khane ka kal meeting kitne baje hai na,Neutral,FALSE
+sun khane ke liye kal meeting kitne baje hai,Neutral,FALSE
 bro thank you bhai tune bahut help ki match mein bro,Positive,FALSE
 yaar aaj ka din bahut kharab tha movie dekh ke bhai,Negative,FALSE
 bhai trip ka experience bahut amazing tha 😂,Positive,FALSE
-"dekho wow kya speed hai, sirf do ghante late 😂",Positive,TRUE
+"wow kya speed hai, sirf do ghante late 😂",Negative,TRUE
 acha mujhe file bhej dena yaar,Neutral,FALSE
 sun internship ke liye aaj library mein milte hain 👍,Neutral,FALSE
 dekho train kitne baje hai bas,Neutral,FALSE
 sun food ka taste ekdum zabardast tha,Positive,FALSE
 arre ye idea mujhe bilkul pasand nahi aaya bhai,Negative,FALSE
 bro festival ke din notes group mein daal dena 👍,Neutral,FALSE
-"bhai oh fantastic, phir se server down project ke regarding bhai",Positive,TRUE
+"oh fantastic, phir se server down",Negative,TRUE
 dekho aaj festival ka data collect karna baaki hai 😅,Neutral,FALSE
 dekho data collect karna baaki hai 😂,Neutral,FALSE
 proud feel ho raha hai apni progress pe 😅,Positive,FALSE
 yaar party ka plan solid hai bro,Positive,FALSE
 movie sach mein bahut achi thi bro,Positive,FALSE
-bro trip ka experience bahut amazing tha order ka 😂,Positive,FALSE
+bro trip ka experience bahut amazing tha 😂,Positive,FALSE
 bro main thodi der mein call karta hun yaar,Neutral,FALSE
 yaar interview expected se bhi kharab gaya ghar pe 😅,Negative,FALSE
 acha proud feel ho raha hai apni progress pe 😅,Positive,FALSE
 "dekho offer mil gaya yaar, so happy family ke saath na",Positive,FALSE
-arre work mein train kitne baje hai yaar,Neutral,FALSE
+arre waha train kitne baje aayegi,Neutral,FALSE
 arre kal college jana hai kya 👍,Neutral,FALSE
 bhai proud feel ho raha hai apni progress pe na,Positive,FALSE
 yaar project ke regarding lecture 10 baje start hoga 👍,Neutral,FALSE
@@ -576,7 +576,7 @@ bhai payment abhi pending hai 👍,Neutral,FALSE
 yaar food order karna hai kya bhai,Neutral,FALSE
 arre aaj gym miss ho gaya phir se bro,Negative,FALSE
 bhai party ka plan solid hai bhai,Positive,FALSE
-"bhai wah kya planning thi, plan start hone se pehle cancel 😂",Positive,TRUE
+"bhai wah kya planning thi, plan start hone se pehle cancel 😂",Negative,TRUE
 "bhai party cancel ho gayi, mood off hai 😂",Negative,FALSE
 acha train kitne baje hai 👍,Neutral,FALSE
 sun food order karna hai kya na,Neutral,FALSE
@@ -589,23 +589,23 @@ bhai ye idea mujhe bilkul pasand nahi aaya 😭,Negative,FALSE
 "dekho brilliant idea, ab sabko extra kaam karna padega bhai",Negative,TRUE
 kahan ho tum abhi 😅,Neutral,FALSE
 bro mast yaar plan successful ho gaya,Positive,FALSE
-arre perfect timing as always canteen mein bas,Positive,TRUE
+arre perfect timing as always,Neutral,TRUE
 sun aaj sab kuch smoothly ho gaya 😅,Positive,FALSE
 acha interview expected se bhi kharab gaya,Negative,FALSE
 sun canteen mein notes group mein daal dena,Neutral,FALSE
-"acha sure bhai, tumhari planning toh legendary hai na",Positive,TRUE
+"sure bhai, tumhari planning toh legendary hai na",Neutral,TRUE
 acha thank you bhai tune bahut help ki 😂,Positive,FALSE
 dekho food order karna hai kya 😭,Neutral,FALSE
-"arre great job bhai, bas isi ki kami thi na",Positive,TRUE
-acha wah finally ek kaam toh sahi kiya yaar,Positive,TRUE
-arre ye plan toh bilkul work nahi kiya travel mein 😅,Negative,FALSE
+"great job bhai, bas isi ki kami thi na",Negative,TRUE
+wah finally ek kaam toh sahi kiya yaar,Positive,TRUE
+arre ye plan toh bilkul work nahi kiya travelling mein 😅,Negative,FALSE
 aaj bahut frustration ho rahi hai 😅,Negative,FALSE
 sun assignment time pe submit ho gaya bro,Positive,FALSE
 yaar payment abhi pending hai 😂,Neutral,FALSE
 acha internship ka thodi der baad baat karte hain bhai,Neutral,FALSE
 yaar bhai result dekh ke bahut khushi hui meeting mein yaar,Positive,FALSE
 acha data collect karna baaki hai bhai,Neutral,FALSE
-"sun sure jan, tum jo bolo wahi sahi exam ke baad 😭",Positive,TRUE
+"sun sure jaan, tum jo bolo wahi sahi exam ke baad 😭",Neutral,TRUE
 acha birthday pe report abhi ready nahi hai yaar,Neutral,FALSE
 acha meeting reschedule ho gayi hai na,Neutral,FALSE
 bhai assignment ka meeting reschedule ho gayi hai yaar,Neutral,FALSE
@@ -623,12 +623,12 @@ arre phir se kaam fail ho gaya 😂,Negative,FALSE
 sun bahut stress ho raha hai hostel mein na,Negative,FALSE
 "arre kya baat hai bhai, ekdum perfect mess 👍",Positive,TRUE
 dekho server phir se down hai aaj ki meeting 👍,Negative,FALSE
-"sun brilliant bhai, ab sab aur complicated ho gaya yaar",Positive,TRUE
+"sun brilliant bhai, ab sab aur complicated ho gaya yaar",Negative,TRUE
 arre bhai result dekh ke bahut khushi hui coding mein bro,Positive,FALSE
 sun ye plan toh bilkul work nahi kiya bas,Negative,FALSE
 acha trip mein bahut problems aa gayi library ke andar yaar,Negative,FALSE
-"acha haan bilkul, tumse better kaun jaanta hai festival mein 😅",Positive,TRUE
-acha assignment ka deadline kab hai bhai,Neutral,FALSE
+"acha haan bilkul, tumse better kaun jaanta hain 😅",Neutral,TRUE
+assignment ka deadline kab hai bhai,Neutral,FALSE
 arre aaj festival ka aaj ghar pe hi hun bro,Neutral,FALSE
 bro trip mein bahut problems aa gayi 😭,Negative,FALSE
 yaar ye plan toh bilkul work nahi kiya order ka bas,Negative,FALSE
@@ -645,7 +645,7 @@ acha kal college jana hai kya 😅,Neutral,FALSE
 "bro great bhai, exactly isi wajah se sab kharab hua hostel se bhai",Negative,TRUE
 yaar ye plan toh bilkul work nahi kiya library se 😂,Negative,FALSE
 acha movie sach mein bahut achi thi 😅,Positive,FALSE
-"sure sure, mujhe pura trust hai tumpe 👍",Positive,TRUE
+"sure sure, mujhe pura trust hai tumpe 👍",Positive,FALSE
 sun interview expected se bhi kharab gaya shopping ke baad na,Negative,FALSE
 acha phir se kaam fail ho gaya 😂,Negative,FALSE
 bhai phir se kaam fail ho gaya bro,Negative,FALSE
@@ -660,21 +660,21 @@ acha internship ke liye main thodi der mein call karta hun yaar,Neutral,FALSE
 bhai presentation bilkul achi nahi gayi,Negative,FALSE
 food order karna hai kya 👍,Neutral,FALSE
 yaar interview expected se bhi kharab gaya na,Negative,FALSE
-"wah kya planning thi, plan start hone se pehle cancel aaj ke exam ka 😅",Positive,TRUE
+"wah kya planning thi, plan start hone se pehle hi cancel hogaya 😅",Negative,TRUE
 arre aaj project ka kahan ho tum abhi bhai,Neutral,FALSE
 "bro library mein oh really, interesting plan hai 😅",Neutral,TRUE
 bro finally kaam complete ho gaya aaj ki meeting 😂,Positive,FALSE
 "great bhai, exactly isi wajah se sab kharab hua 😂",Negative,TRUE
-"arre wow impressive, meeting miss karna bhi skill hai na",Positive,TRUE
+"arre wow impressive, meeting miss karna bhi skill hai na",Negative,TRUE
 arre aaj ki meeting data collect karna baaki hai bas,Neutral,FALSE
 yaar payment abhi pending hai yaar,Neutral,FALSE
 trip ka experience bahut amazing tha canteen pe 😭,Positive,FALSE
 "offer mil gaya yaar, so happy hostel ke room mein 😂",Positive,FALSE
 sun finally weekend aa gaya workout ke baad bas,Positive,FALSE
 sun presentation bilkul achi nahi gayi exam ke baad 👍,Negative,FALSE
-"sun great bhai, exactly isi wajah se sab kharab hua 😂",Negative,TRUE
+"exactly isi wajah se sab kharab hua 😂",Negative,TRUE
 bro proud feel ho raha hai apni progress pe code ke andar bhai,Positive,FALSE
-"bro wow kya speed hai, sirf do ghante late bhai",Positive,TRUE
+"bro wow kya speed hai, sirf do ghante late bhai",Negative,TRUE
 arre food ka taste ekdum zabardast tha college mein na,Positive,FALSE
 acha mast yaar plan successful ho gaya college ke baad 😭,Positive,FALSE
 arre assignment submit karke kal ka plan kya hai bro,Neutral,FALSE
@@ -685,107 +685,110 @@ acha aaj presentation surprisingly achi gayi shopping ke baad yaar,Positive,FALS
 yaar aaj bahut acha laga,Positive,FALSE
 bhai kya bakwas hai,Negative,FALSE
 kal milte hain,Neutral,FALSE
-haan haan genius hai tu,Positive,TRUE
+haan haan genius hai tu,Neutral,TRUE
 great job bro,Positive,FALSE
 theek hai,Neutral,FALSE
-wah kya planning hai teri,Positive,TRUE
+wah kya planning hai teri,Positive,FALSE
 bahut maza aaya aaj,Positive,FALSE
 okay fine,Neutral,FALSE
-haan bilkul tune toh kamaal kar diya,Positive,TRUE
+haan bilkul tune toh kamaal kar diya,Positive,FALSE
 acha hai,Positive,FALSE
-kya time pe aaye ho aaj,Positive,TRUE
+kya time pe aaye ho aaj,Neutral,TRUE
 meeting at 5pm,Neutral,FALSE
 sorry yaar late ho gaya,Negative,FALSE
 awesome work,Positive,FALSE
-haan sure jo karna hai karo,Neutral,TRUE
+haan sure jo karna hai karo,Neutral,FALSE
 this is actually amazing,Positive,FALSE
-yeah right,Neutral,TRUE
+yeah right,Neutral,FALSE
 bohot badhiya,Positive,FALSE
 koi baat nahi,Neutral,FALSE
-ye kya ho raha hai,Negative,FALSE
-perfect timing,Positive,TRUE
+ye kya ho raha hai,Neutral,FALSE
+perfect timing,Positive,FALSE
 good morning,Positive,FALSE
 achha thik hai,Neutral,FALSE
-oh wow fantastic,Positive,TRUE
+oh wow fantastic,Positive,FALSE
 bas theek hai,Neutral,FALSE
-bhai tu toh expert hai,Positive,TRUE
+bhai tu toh expert hai,Positive,FALSE
 all the best,Positive,FALSE
 sab kuch ready hai,Positive,FALSE
 hmmm,Neutral,FALSE
-brilliant idea,Positive,TRUE
+brilliant idea,Positive,FALSE
 ok done,Neutral,FALSE
 yaar tension mat lo,Positive,FALSE
 kya scene hai,Neutral,FALSE
-outstanding performance,Positive,TRUE
+outstanding performance,Positive,FALSE
 good night,Positive,FALSE
 bilkul sahi,Positive,FALSE
-whatever,Neutral,TRUE
+whatever,Neutral,FALSE
 nice work,Positive,FALSE
-are yaar kya kar rahe ho,Negative,FALSE
-superb job,Positive,TRUE
+are yaar kya kar rahe ho,Neutral,FALSE
+superb job,Positive,FALSE
 thanks a lot,Positive,FALSE
 kuch nahi yaar,Neutral,FALSE
-waah kya baat hai,Positive,TRUE
+waah kya baat hai,Positive,FALSE
 see you soon,Neutral,FALSE
 bahut ganda laga,Negative,FALSE
-excellent choice,Positive,TRUE
+excellent choice,Positive,FALSE
 ok bye,Neutral,FALSE
 arre yaar pagal hai kya,Negative,FALSE
 wonderful idea,Positive,TRUE
-dekho perfect timing as always na,Positive,TRUE
+dekho perfect timing as always na,Positive,FALSE
 acha thodi der baad baat karte hain 👍,Neutral,FALSE
 bhai library mein bhai ghar kab aa raha hai 😅,Neutral,FALSE
-"acha haan sure, jo karna hai kar lo bas",Neutral,TRUE
+"acha haan sure, jo karna hai kar lo bas",Neutral,FALSE
 arre thodi der baad baat karte hain na,Neutral,FALSE
-acha assignment time pe submit ho gaya match mein bro,Positive,FALSE
+assignment time pe submit ho gaya tha math ka bro,Positive,FALSE
 arre exam ke baad mujhe file bhej dena bhai,Neutral,FALSE
 assignment complete nahi hua yaar,Negative,FALSE
 bhai work mein mujhe file bhej dena 😭,Neutral,FALSE
 bro finally weekend aa gaya exam ke liye na,Positive,FALSE
-aaj festival ka kal ka plan kya hai 😅,Neutral,FALSE
-arre ye idea actually kaafi useful hai weather dekh ke yaar,Positive,FALSE
+aaj festival hai kal ka plan kya hai 😅,Neutral,FALSE
+arre ye idea actually kaafi useful hai,Positive,FALSE
 bhai canteen ka food mujhe file bhej dena yaar,Neutral,FALSE
 bhai main thodi der mein call karta hun,Neutral,FALSE
 "aaj college ka haan bilkul, tum jo decide karo bhai",Neutral,TRUE
 yaar assignment ka deadline kab hai 👍,Neutral,FALSE
 sun ye plan toh bilkul work nahi kiya project ke regarding na,Negative,FALSE
-dekho bhai result dekh ke disappointment hua group mein bas,Negative,FALSE
-aaj weather bhi ekdum awesome hai bas,Positive,FALSE
+dekho bhai result dekh ke disappointment hua,Negative,FALSE
+aaj weather bhi ekdum awesome hai,Positive,FALSE
 bhai data collect karna baaki hai 👍,Neutral,FALSE
-"yaar haan bilkul, tumse better kaun jaanta hai",Positive,TRUE
-bro aaj sab kuch smoothly ho gaya internship ka 👍,Positive,FALSE
-party ka plan solid hai aaj gym ka 😭,Positive,FALSE
+"yaar haan bilkul, tumse better kaun jaanta hai",Neutral,TRUE
+bro aaj sab kuch smoothly ho gaya internship ka👍,Positive,FALSE
+party ka plan solid hai😭,Positive,FALSE
 sun bhai ghar kab aa raha hai 😂,Neutral,FALSE
-internship ka main thodi der mein call karta hun bhai,Neutral,FALSE
+internship hai main thodi der mein call karta hun bhai,Neutral,FALSE
 order ka kal ka plan kya hai bhai,Neutral,FALSE
 sun bhai result dekh ke disappointment hua bhai,Negative,FALSE
 acha mast yaar plan successful ho gaya office ke kaam mein yaar,Positive,FALSE
 bhai aaj wali movie payment abhi pending hai 😅,Neutral,FALSE
-"bhai party cancel ho gayi, mood off hai weather dekh ke 👍",Negative,FALSE
-bro assignment ka deadline kab hai na,Neutral,FALSE
-acha ye plan toh bilkul work nahi kiya placement ke regarding bro,Negative,FALSE
+"bhai party cancel ho gayi, mood off hai👍",Negative,FALSE
+bro assignment ka deadline kab hai,Neutral,FALSE
+acha ye plan toh bilkul work nahi kiya,Negative,FALSE
 aaj gym mein workout mast raha 😂,Positive,FALSE
 sun canteen pe mujhe file bhej dena bhai,Neutral,FALSE
 sun yaar aaj ka din kaafi mast tha bas,Positive,FALSE
 yaar report abhi ready nahi hai,Neutral,FALSE
 workout ke baad mujhe details send kar dena 😅,Neutral,FALSE
-dekho finally weekend aa gaya project ke regarding 😂,Positive,FALSE
+dekho finally weekend aa gaya project ke regarding discussion karte hai,Neutral,FALSE
 arre party ka plan solid hai na,Positive,FALSE
 dekho hostel ke room mein payment abhi pending hai 😅,Neutral,FALSE
 "dekho oh really, interesting plan hai yaar",Neutral,TRUE
 sun lecture 10 baje start hoga yaar,Neutral,FALSE
 acha aaj library mein milte hain 😂,Neutral,FALSE
-"dekho order ka haan sure, jo karna hai kar lo 😭",Neutral,TRUE
+"Brilliant idea, ab sabko extra kaam karna padega",Negative,TRUE
+"Perfect timing, exam khatam hone ke baad aaye ho",Negative,TRUE
+"Great job, ab problem aur badh gayi",Negative,TRUE
+"dekho order ka jo karna hai kar lo 😭",Neutral,TRUE
 "yaar thanks yaar, problem solve ho gayi family ke saath 😂",Positive,FALSE
-dekho aaj bahut traffic tha meeting mein bas,Negative,FALSE
-dekho movie sach mein bahut achi thi friends ke saath 😂,Positive,FALSE
-bhai haan haan genius plan hai tera game ka,Positive,TRUE
-"yaar party cancel ho gayi, mood off hai hostel mein bhai",Negative,FALSE
-bro mast yaar plan successful ho gaya work mein bhai,Positive,FALSE
-acha aaj ke match mein aaj ghar pe hi hun 😭,Neutral,FALSE
+aaj bahut traffic tha,Neutral,FALSE
+movie sach mein bahut achi lgi friends ke saath 😂,Positive,FALSE
+bhai haan haan genius plan hai tera game ka,Neutral,FALSE
+"yaar party cancel ho gayi, mood off hai",Negative,FALSE
+bro mast yaar plan successful ho gaya,Positive,FALSE
+aaj ghar pe hi hun 😭,Neutral,FALSE
 "yaar wah kya zabardast kaam kiya, ab problem aur badh gayi bas",Negative,TRUE
-aaj gym ka aaj ghar pe hi hun 😂,Neutral,FALSE
-arre college mein assignment ka deadline kab hai bas,Neutral,FALSE
+aaj gym nhi gaya tha bas ghar pe hi chill kar rha tha 😂,Neutral,FALSE
+arre college mein assignment ka deadline kab hai,Neutral,FALSE
 "Tu five minute bolke aadhe ghante baad aaya, impressive consistency hai teri 😂",Negative,TRUE
 "Yaar mai library pahunch gayi, tu bhi aa ja jab free ho",Neutral,FALSE
 Sir ne bola easy question hai aur paper dekhte hi meri rooh nikal gayi 😭,Negative,TRUE
@@ -887,7 +890,7 @@ Hostel mein aaj itna shor hai ki padhai ke saath DJ night bhi free mil rahi hai 
 "submission ka kaam start kar diya hai, update baad mein dunga 📌 😅",Neutral,FALSE
 submission ke chakkar mein poora schedule disturb ho gaya 🙄,Negative,FALSE
 "Details mil gayi hain, bas confirmation baaki hai yaar 🙂",Neutral,FALSE
-"Kya smooth process hai, har step pe ek naya surprise mil raha hai yaar 😌",Positive,TRUE
+"Kya smooth process hai, har step pe ek naya surprise mil raha hai yaar 😌",Negative,TRUE
 Aaj submission complete karke mood genuinely better ho gaya 🌻,Positive,FALSE
 Aaj submission mein ek extra step add hua hai 😅 — sach mein.,Neutral,FALSE
 "Nice, information mil gayi... bas useful wali abhi missing hai 🤔",Neutral,TRUE
@@ -903,7 +906,7 @@ Notifications ne beech mein aake pura concentration tod diya 🙄 😅,Negative,
 "group admin ne bina bole help kar di, nice laga honestly 😊 — literally.",Positive,FALSE
 "bus stop ka quiet corner mil gaya, perfect for getting things done 💛 😅",Positive,FALSE
 "bus stop ka quiet corner mil gaya, perfect for getting things done 🙌 — literally.",Positive,FALSE
-"Amazing timing, free hote hi naya urgent kaam aa gaya 🌻 — sach mein.",Positive,TRUE
+"Amazing timing, free hote hi naya urgent kaam aa gaya 🌻 — sach mein.",Negative,TRUE
 "Great, notes phir se wahi issue de raha hai, consistency toh hai 😵‍💫 😅",Negative,TRUE
 "Same mistake phir repeat hui, ab explain karne ka mood nahi hai yaar 😵‍💫 😅",Negative,FALSE
 Aaj submission mein ek extra step add hua hai 😅 😅,Neutral,FALSE

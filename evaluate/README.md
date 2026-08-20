@@ -21,7 +21,7 @@ The evaluation system tests the **EXACT same models and processing pipeline** as
 ## Dataset Requirements
 
 ### Dataset Location
-Place your dataset at: `evaluate/dataset/whatsapp_hinglish messages.csv`
+Place your dataset at: `evaluate/dataset/whatsapp_hinglish_messages.csv`
 
 ### Required Format
 The CSV file must contain exactly these columns:

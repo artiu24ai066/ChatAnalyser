@@ -1,0 +1,25 @@
+{
+  "total_messages": 10000,
+  "sarcastic_count": 4425,
+  "non_sarcastic_count": 5575,
+  "non_sarcastic": {
+    "count": 5575,
+    "accuracy": 0.6041255605381166,
+    "precision_macro": 0.5428467966887383,
+    "recall_macro": 0.622406731316408,
+    "f1_macro": 0.5456661978820336,
+    "f1_weighted": 0.6385586001233601
+  },
+  "sarcastic": {
+    "count": 4425,
+    "accuracy": 0.4533333333333333,
+    "precision_macro": 0.4290911335772724,
+    "recall_macro": 0.4247309683250348,
+    "f1_macro": 0.4234459394082562,
+    "f1_weighted": 0.4582577904411289
+  },
+  "performance_impact": {
+    "accuracy_drop": 0.1507922272047833,
+    "f1_macro_drop": 0.12222025847377743
+  }
+}

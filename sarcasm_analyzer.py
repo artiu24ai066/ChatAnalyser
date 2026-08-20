@@ -8,9 +8,7 @@
 # Model used:
 #   amaan00z/sarcasm_xlmr
 #   - XLM-RoBERTa base fine-tuned specifically for sarcasm detection
-#   - XLM-RoBERTa was pretrained on 100 languages including multilingual
-#     text, which gives it better coverage of Hinglish code-switching
-#     compared to English-only models like cardiffnlp/twitter-roberta-base-irony
+#   - XLM-RoBERTa was pretrained on 100 languages including multilingual text, which gives it better coverage of Hinglish code-switching compared to English-only models like cardiffnlp/twitter-roberta-base-irony
 #   - Binary classifier: LABEL_0 (not sarcastic) | LABEL_1 (sarcastic)
 #   - Label mapping confirmed empirically by probing on Hinglish test messages
 #
@@ -21,11 +19,8 @@
 #   "bahut maza aaya aaj"                   → Not Sarcastic (0.943) ✓
 #
 # Important limitations (honest):
-#   1. The base XLM-RoBERTa multilingual pretraining helps with Hinglish,
-#      but the fine-tuning dataset composition for this specific model is
-#      not fully documented — treat results as a useful statistical signal.
-#   2. Context-dependent sarcasm that spans multiple messages cannot be
-#      detected because each message is classified independently.
+#   1. The base XLM-RoBERTa multilingual pretraining helps with Hinglish, but the fine-tuning dataset composition for this specific model is not fully documented — treat results as a useful statistical signal.
+#   2. Context-dependent sarcasm that spans multiple messages cannot be detected because each message is classified independently.
 #   3. Sarcasm score is model confidence, not a human sarcasm intensity rating.
 #   4. Low scores near 0.5 indicate the model is uncertain.
 #   5. These predictions are statistical estimates, not ground truth.
