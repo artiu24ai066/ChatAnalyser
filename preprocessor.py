@@ -23,32 +23,46 @@ import pandas as pd
 # ── 1. Detect which broad format the file uses ──────────────────────────────
 
 def _detect_format(data: str) -> str:
-    """Return 'ios' or 'android'.
+    """Return 'ios' or 'android' based on the WhatsApp export format."""
 
-    iOS exports have lines that START with a full bracketed timestamp:
-        [DD/MM/YYYY, HH:MM:SS AM/PM] Name: message
-    We require the bracket to contain a valid timestamp, not just any '['.
-    """
     ios_line = re.compile(
         r"^\["
-        r"(?:\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}|\d{4}[/\.]\d{1,2}[/\.]\d{1,2})"
+        r"(?:"
+            r"\d{1,2}[/.]\d{1,2}[/.]\d{2,4}"
+            r"|"
+            r"\d{4}[/.]\d{1,2}[/.]\d{1,2}"
+        r")"
         r",\s\d{1,2}:\d{2}"
-        r"(?::\d{2})?(?:\s?[apAP][mM]\.?)?"
+        r"(?::\d{2})?"
+        r"(?:\s?[AaPp][Mm]\.?)?"
         r"\]",
-        re.MULTILINE,
+        re.MULTILINE
     )
+
     if ios_line.search(data):
         return "ios"
+
     return "android"
 
 
 # ── 2. Normalise the raw text so one regex can handle everything ────────────
 
 def _normalise(data: str) -> str:
-    # Replace every unicode whitespace variant with a plain ASCII space
-    for ch in ('\u202f', '\u00a0', '\u2009', '\u200b', '\u2060', '\ufeff'):
-        data = data.replace(ch, ' ')
+
+    replacements = {
+        "\u202f": " ",  # narrow no-break space
+        "\u00a0": " ",  # non-breaking space
+        "\u2009": " ",  # thin space
+        "\u200b": "",   # zero-width space
+        "\u2060": "",   # word joiner
+        "\ufeff": "",   # BOM
+    }
+
+    for old, new in replacements.items():
+        data = data.replace(old, new)
+
     return data
+
 
 
 # ── 3. Android parsing ──────────────────────────────────────────────────────
@@ -64,30 +78,40 @@ def _normalise(data: str) -> str:
 #
 _AND_TIMESTAMP = (
     r"(?:"
-        r"\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}"   # D/M/YY  or  D.M.YYYY
+        r"\d{1,2}[/.]\d{1,2}[/.]\d{2,4}"
         r"|"
-        r"\d{4}[/\.]\d{1,2}[/\.]\d{1,2}"      # YYYY/MM/DD
+        r"\d{4}[/.]\d{1,2}[/.]\d{1,2}"
     r")"
     r",\s"
-    r"\d{1,2}:\d{2}(?::\d{2})?"               # HH:MM  or  HH:MM:SS
-    r"(?:\s?[apAP][mM]\.?)?"                   # optional AM/PM (any case, optional dot)
+    r"\d{1,2}:\d{2}"
+    r"(?::\d{2})?"
+    r"(?:\s?[AaPp][Mm]\.?)?"
 )
 
-_AND_FULL_PATTERN  = _AND_TIMESTAMP + r"\s-\s"   # full line token  "… - "
-_AND_DATE_ONLY     = r"(?m)^" + _AND_TIMESTAMP    # anchored to line-start for findall
+_AND_FULL_PATTERN = _AND_TIMESTAMP + r"\s-\s"
+
+_AND_DATE_ONLY = r"(?m)^" + _AND_TIMESTAMP
 
 
 def _parse_android(data: str) -> pd.DataFrame:
+
     messages = re.split(_AND_FULL_PATTERN, data)[1:]
-    dates    = re.findall(_AND_DATE_ONLY, data)
+    dates = re.findall(_AND_DATE_ONLY, data)
 
     if not dates:
         return pd.DataFrame()
 
-    df = pd.DataFrame({'user_message': messages, 'message_date': dates})
-    df['message_date'] = _smart_parse(df['message_date'])
-    df = df[df['message_date'].notnull()]
-    return df
+    min_length = min(len(messages), len(dates))
+
+    df = pd.DataFrame({
+        "user_message": messages[:min_length],
+        "message_date": dates[:min_length]
+    })
+
+    df["message_date"] = _smart_parse(df["message_date"])
+
+    return df[df["message_date"].notnull()].reset_index(drop=True)
+
 
 
 # ── 4. iOS parsing ──────────────────────────────────────────────────────────
@@ -98,43 +122,54 @@ def _parse_android(data: str) -> pd.DataFrame:
 _IOS_TIMESTAMP = (
     r"\["
     r"(?:"
-        r"\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}"
+        r"\d{1,2}[/.]\d{1,2}[/.]\d{2,4}"
         r"|"
-        r"\d{4}[/\.]\d{1,2}[/\.]\d{1,2}"
+        r"\d{4}[/.]\d{1,2}[/.]\d{1,2}"
     r")"
     r",\s"
-    r"\d{1,2}:\d{2}(?::\d{2})?"
-    r"(?:\s?[apAP][mM]\.?)?"
+    r"\d{1,2}:\d{2}"
+    r"(?::\d{2})?"
+    r"(?:\s?[AaPp][Mm]\.?)?"
     r"\]"
 )
 
-_IOS_FULL_PATTERN = _IOS_TIMESTAMP + r"\s"      # full bracket token + space
-_IOS_DATE_ONLY    = (                            # captures just the inner timestamp
+_IOS_FULL_PATTERN = _IOS_TIMESTAMP + r"\s"
+
+_IOS_DATE_ONLY = (
     r"(?m)^\["
     r"("
         r"(?:"
-            r"\d{1,2}[/\.]\d{1,2}[/\.]\d{2,4}"
+            r"\d{1,2}[/.]\d{1,2}[/.]\d{2,4}"
             r"|"
-            r"\d{4}[/\.]\d{1,2}[/\.]\d{1,2}"
+            r"\d{4}[/.]\d{1,2}[/.]\d{1,2}"
         r")"
         r",\s"
-        r"\d{1,2}:\d{2}(?::\d{2})?"
-        r"(?:\s?[apAP][mM]\.?)?"
-    r")\]"
+        r"\d{1,2}:\d{2}"
+        r"(?::\d{2})?"
+        r"(?:\s?[AaPp][Mm]\.?)?"
+    r")"
+    r"\]"
 )
 
-
 def _parse_ios(data: str) -> pd.DataFrame:
+
     messages = re.split(_IOS_FULL_PATTERN, data)[1:]
-    dates    = re.findall(_IOS_DATE_ONLY, data)   # group(1) strips the brackets
+    dates = re.findall(_IOS_DATE_ONLY, data)
 
     if not dates:
         return pd.DataFrame()
 
-    df = pd.DataFrame({'user_message': messages, 'message_date': dates})
-    df['message_date'] = _smart_parse(df['message_date'])
-    df = df[df['message_date'].notnull()]
-    return df
+    min_length = min(len(messages), len(dates))
+
+    df = pd.DataFrame({
+        "user_message": messages[:min_length],
+        "message_date": dates[:min_length]
+    })
+
+    df["message_date"] = _smart_parse(df["message_date"])
+
+    return df[df["message_date"].notnull()].reset_index(drop=True)
+
 
 
 # ── 5. Smart date parser ────────────────────────────────────────────────────
@@ -144,39 +179,56 @@ def _parse_ios(data: str) -> pd.DataFrame:
 # NaTs we fall back to dayfirst=False (US locale).
 #
 def _smart_parse(date_series: pd.Series) -> pd.Series:
-    # Strip seconds component so pandas can parse uniformly
-    cleaned = date_series.str.replace(
-        r'(:\d{2})(:\d{2})', r'\1', regex=True
-    )
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        parsed_day_first = pd.to_datetime(cleaned, dayfirst=True,  errors='coerce')
-        parsed_us        = pd.to_datetime(cleaned, dayfirst=False, errors='coerce')
 
-    null_df = parsed_day_first.isna().sum()
+        parsed_day_first = pd.to_datetime(
+            date_series,
+            dayfirst=True,
+            errors="coerce"
+        )
+
+        parsed_us = pd.to_datetime(
+            date_series,
+            dayfirst=False,
+            errors="coerce"
+        )
+
+    null_day_first = parsed_day_first.isna().sum()
     null_us = parsed_us.isna().sum()
 
-    # Pick whichever strategy produces fewer failed parses
-    return parsed_day_first if null_df <= null_us else parsed_us
+    return (
+        parsed_day_first
+        if null_day_first <= null_us
+        else parsed_us
+    )
 
 
 # ── 6. Split user / message ─────────────────────────────────────────────────
 
 def _extract_users_messages(df: pd.DataFrame):
-    users, messages = [], []
-    for raw in df['user_message']:
-        # Each message starts with "Name: text" or is a group notification
-        parts = re.split(r'([\w\W]+?):\s', raw, maxsplit=1)
-        if len(parts) >= 3:          # ['', name, rest_of_message]
-            users.append(parts[1])
-            messages.append(parts[2])
+
+    users = []
+    messages = []
+
+    for raw in df["user_message"]:
+
+        if ": " in raw:
+            user, message = raw.split(": ", 1)
+
+            users.append(user)
+            messages.append(message)
+
         else:
-            users.append('group_notification')
-            messages.append(parts[0])
-    df['user']    = users
-    df['message'] = messages
-    df.drop(columns=['user_message'], inplace=True)
+            users.append("group_notification")
+            messages.append(raw)
+
+    df["user"] = users
+    df["message"] = messages
+
+    df.drop(columns=["user_message"], inplace=True)
+
     return df
 
 

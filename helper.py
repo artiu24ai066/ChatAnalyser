@@ -6,6 +6,7 @@ import emoji
 
 extract = URLExtract()
 
+
 def fetch_stats(selected_user,df):
 
     if selected_user != 'Overall':
@@ -29,45 +30,47 @@ def fetch_stats(selected_user,df):
 
     return num_messages,len(words),num_media_messages,len(links)
 
+
 def most_busy_users(df):
     x = df['user'].value_counts().head()
     df = round((df['user'].value_counts() / df.shape[0]) * 100, 2).reset_index().rename(
         columns={'index': 'name', 'user': 'percent'})
     return x,df
 
+
 def create_wordcloud(selected_user,df):
 
-    f = open('stop_hinglish.txt', 'r')
-    stop_words = f.read()
+    with open('stop_hinglish.txt', 'r', encoding='utf-8') as f:
+        stop_words = set(f.read().split())
 
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    temp = df[df['user'] != 'group_notification']
-    temp = temp[temp['message'] != '<Media omitted>\n']
+    temp = df[df['user'] != 'group_notification'].copy()
+    temp = temp[temp['message'] != '<Media omitted>\n'].copy()
 
     def remove_stop_words(message):
-        y = []
-        for word in message.lower().split():
-            if word not in stop_words:
-                y.append(word)
-        return " ".join(y)
-
+        return " ".join(
+            word for word in message.lower().split()
+            if word not in stop_words
+        )
+    
     wc = WordCloud(width=500,height=500,min_font_size=10,background_color='white')
     temp['message'] = temp['message'].apply(remove_stop_words)
     df_wc = wc.generate(temp['message'].str.cat(sep=" "))
     return df_wc
 
+
 def most_common_words(selected_user,df):
 
-    f = open('stop_hinglish.txt','r')
-    stop_words = f.read()
+    with open('stop_hinglish.txt', 'r', encoding='utf-8') as f:
+        stop_words = set(f.read().split())
 
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    temp = df[df['user'] != 'group_notification']
-    temp = temp[temp['message'] != '<Media omitted>\n']
+    temp = df[df['user'] != 'group_notification'].copy()
+    temp = temp[temp['message'] != '<Media omitted>\n'].copy()
 
     words = []
 
@@ -94,9 +97,11 @@ def emoji_helper(selected_user,df):
     for message in df['message']:
         emojis.extend(extract_emojis(message))
 
-    emoji_df = pd.DataFrame(Counter(emojis).most_common(len(Counter(emojis))))
+    emoji_counts = Counter(emojis)
+    emoji_df = pd.DataFrame(emoji_counts.most_common())
 
     return emoji_df
+
 
 def monthly_timeline(selected_user,df):
 
@@ -113,6 +118,7 @@ def monthly_timeline(selected_user,df):
 
     return timeline
 
+
 def daily_timeline(selected_user,df):
 
     if selected_user != 'Overall':
@@ -122,6 +128,7 @@ def daily_timeline(selected_user,df):
 
     return daily_timeline
 
+
 def week_activity_map(selected_user,df):
 
     if selected_user != 'Overall':
@@ -129,12 +136,14 @@ def week_activity_map(selected_user,df):
 
     return df['day_name'].value_counts()
 
+
 def month_activity_map(selected_user,df):
 
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
     return df['month'].value_counts()
+
 
 def activity_heatmap(selected_user,df):
 
@@ -365,7 +374,7 @@ def emotion_by_user(selected_user, df, min_messages=5):
     """
     Calculate emotion distribution (%) for each user.
 
-    Same structure as sentiment_by_user() but for the 7 emotion classes.
+    Same structure as sentiment_by_user() but for the emotion classes predicted by the multilingual emotion classification model.
 
     When selected_user == "Overall":
         Returns a pivot with one row per user, columns = each emotion present in data.

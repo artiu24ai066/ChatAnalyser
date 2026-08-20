@@ -27,7 +27,7 @@
 #
 # Output columns added to the DataFrame:
 #   is_sarcastic   : bool/None  — True if model predicts sarcasm
-#   sarcasm_score  : float/None — confidence score (0.0–1.0) for
+#   sarcasm_confidence  : float/None — confidence score (0.0–1.0) for
 #                                 the predicted label
 #
 # Architecture note:
@@ -64,9 +64,9 @@ SARCASM_MODEL_NAME = "amaan00z/sarcasm_xlmr"
 #   "aaj bahut acha laga yaar"              → LABEL_0 (0.858) ✓ genuine
 #   "bahut maza aaya aaj"                   → LABEL_0 (0.943) ✓ genuine
 #
-# This model (XLM-RoBERTa based) handles Hinglish significantly better than
-# the Cardiff English-only irony model because XLM-RoBERTa was pretrained on
-# multilingual data including Hindi-adjacent text.
+# This XLM-RoBERTa-based model was selected because its multilingual
+# pretraining provides broader coverage for multilingual and code-mixed
+# text such as Hinglish compared with English-focused irony models.
 SARCASM_LABEL_MAP = {
     "LABEL_0": False,   # Not Sarcastic
     "LABEL_1": True,    # Sarcastic
@@ -83,7 +83,7 @@ MAX_LENGTH = 64
 
 # Messages to skip — same patterns as nlp_analyzer.is_analyzable()
 SKIP_PATTERNS = [
-    r"<media omitted>",
+    r"<media omitted>",          # images, videos, audio
     r"<image omitted>",
     r"<video omitted>",
     r"<audio omitted>",
@@ -95,7 +95,10 @@ SKIP_PATTERNS = [
     r"messages and calls are end-to-end encrypted",
     r"missed voice call",
     r"missed video call",
+    r"security code changed",
+    r"https?://\S+",             
 ]
+
 _SKIP_RE = re.compile("|".join(SKIP_PATTERNS), flags=re.IGNORECASE)
 
 
@@ -211,7 +214,7 @@ def run_sarcasm_analysis(df: pd.DataFrame, pipe,
                          progress_offset: float = 0.0,
                          progress_range: float = 1.0) -> pd.DataFrame:
     """
-    Add 'is_sarcastic' and 'sarcasm_score' columns to the DataFrame.
+    Add 'is_sarcastic' and 'sarcasm_confidence' columns to the DataFrame.
 
     Steps:
     1. Identify analyzable messages (skip media, notifications, empty)
@@ -230,16 +233,16 @@ def run_sarcasm_analysis(df: pd.DataFrame, pipe,
 
     Returns
     -------
-    pd.DataFrame with 'is_sarcastic' (bool/None) and 'sarcasm_score' (float/None)
+    pd.DataFrame with 'is_sarcastic' (bool/None) and 'sarcasm_confidence' (float/None)
     """
     df = df.copy()
 
     # Initialise with None — keeps dtype as object so bools can be stored
     df["is_sarcastic"]  = None
-    df["sarcasm_score"] = None
+    df["sarcasm_confidence"] = None
 
-    mask           = df["message"].apply(is_analyzable)
-    valid_indices  = df.index[mask].tolist()
+    mask = df["message"].apply(is_analyzable)
+    valid_indices = df.index[mask].tolist()
     valid_messages = df.loc[valid_indices, "message"].tolist()
 
     if len(valid_messages) == 0:
@@ -252,11 +255,22 @@ def run_sarcasm_analysis(df: pd.DataFrame, pipe,
         progress_range=progress_range
     )
 
-    for idx, result in zip(valid_indices, results):
-        raw_label   = result["label"]
-        is_sarcastic = SARCASM_LABEL_MAP.get(raw_label, False)
-        df.at[idx, "is_sarcastic"]  = is_sarcastic
-        df.at[idx, "sarcasm_score"] = round(result["score"], 4)
+    labels = []
+    confidences = []
+
+    for result in results:
+        raw_label = result["label"]
+
+        if raw_label not in SARCASM_LABEL_MAP:
+            raise ValueError(
+                f"Unexpected sarcasm model label: {raw_label}"
+            )
+
+        labels.append(SARCASM_LABEL_MAP[raw_label])
+        confidences.append(round(result["score"], 4))
+
+    df.loc[valid_indices, "is_sarcastic"] = labels
+    df.loc[valid_indices, "sarcasm_confidence"] = confidences
 
     return df
 
@@ -283,7 +297,7 @@ def enrich_sarcasm(df: pd.DataFrame,
 
     Returns
     -------
-    pd.DataFrame with is_sarcastic and sarcasm_score columns added.
+    pd.DataFrame with is_sarcastic and sarcasm_confidencs columns added.
     If the model fails to load, returns df with both columns set to None.
     """
     pipe = load_sarcasm_model()
@@ -291,7 +305,7 @@ def enrich_sarcasm(df: pd.DataFrame,
     if pipe is None:
         df = df.copy()
         df["is_sarcastic"]  = None
-        df["sarcasm_score"] = None
+        df["sarcasm_confidence"] = None
         return df
 
     return run_sarcasm_analysis(

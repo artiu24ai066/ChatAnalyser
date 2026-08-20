@@ -39,7 +39,6 @@
 import re
 import streamlit as st
 import pandas as pd
-import numpy as np
 import emoji
 
 # ---------------------------------------------------------------------------
@@ -140,8 +139,7 @@ EMOTION_ICONS = {
 # 32 is a safe default for most laptops.
 BATCH_SIZE = 128  # send 128 messages per model call — faster than 64 on CPU
 
-MAX_LENGTH = 64   # reduced from 128 — WhatsApp messages rarely exceed 30 tokens,
-                  # cutting this in half roughly halves the computation per batch
+MAX_LENGTH = 128 
 
 # Messages that should NOT be analyzed (they carry no real sentiment).
 # We match these as substrings (case-insensitive).
@@ -158,6 +156,8 @@ SKIP_PATTERNS = [
     r"messages and calls are end-to-end encrypted",
     r"missed voice call",
     r"missed video call",
+    r"security code changed",
+    r"https?://\S+",             
 ]
 
 # Compiled regex for speed (compiled once at import time)
@@ -383,7 +383,12 @@ def _run_pipeline_in_batches(pipe, texts: list, batch_size: int = BATCH_SIZE,
 
     for start in range(0, total, batch_size):
         batch        = texts[start : start + batch_size]
-        batch_results= pipe(batch)
+        batch_results = pipe(
+            batch,
+            batch_size=batch_size,
+            truncation=True,
+            max_length=MAX_LENGTH
+        )
         results.extend(batch_results)
 
         # Update Streamlit progress bar if one was passed in
@@ -426,11 +431,18 @@ def run_sentiment_analysis(df: pd.DataFrame, pipe, progress_bar=None,
         progress_range=progress_range
     )
 
-    for idx, result in zip(valid_indices, results):
-        raw_label    = result["label"]
-        mapped_label = SENTIMENT_LABEL_MAP.get(raw_label, raw_label)
-        df.at[idx, "sentiment"]       = mapped_label
-        df.at[idx, "sentiment_score"] = round(result["score"], 4)
+    labels = [
+        SENTIMENT_LABEL_MAP.get(result["label"], result["label"])
+        for result in results
+    ]
+
+    scores = [
+        round(result["score"], 4)
+        for result in results
+    ]
+
+    df.loc[valid_indices, "sentiment"] = labels
+    df.loc[valid_indices, "sentiment_score"] = scores
 
     return df
 
@@ -463,11 +475,18 @@ def run_emotion_analysis(df: pd.DataFrame, pipe, progress_bar=None,
         progress_range=progress_range
     )
 
-    for idx, result in zip(valid_indices, results):
-        raw_label    = result["label"]
-        mapped_label = EMOTION_LABEL_MAP.get(raw_label, raw_label)
-        df.at[idx, "emotion"]       = mapped_label
-        df.at[idx, "emotion_score"] = round(result["score"], 4)
+    labels = [
+        EMOTION_LABEL_MAP.get(result["label"], result["label"])
+        for result in results
+    ]
+
+    scores = [
+        round(result["score"], 4)
+        for result in results
+    ]
+
+    df.loc[valid_indices, "emotion"] = labels
+    df.loc[valid_indices, "emotion_score"] = scores
 
     return df
 

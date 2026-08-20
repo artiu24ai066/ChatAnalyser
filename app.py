@@ -17,17 +17,13 @@ if uploaded_file is not None:
     # ── NLP Enrichment with caching ───────────────────────────────────────────
     # cached_enrich() runs sentiment + emotion inference on every message.
     # The result is cached by the MD5 hash of the uploaded file.
-    #
     # First upload  : runs both models, shows a progress bar, takes time.
     # Same file again: returns the cached result instantly — no inference.
     # Different file : detects the new hash and runs inference again.
-    #
-    # A real progress bar (0% → 100%) replaces the vague spinner so the user
-    # can see exactly how far along the analysis is.
+    # A real progress bar (0% → 100%) replaces the vague spinner so the user can see exactly how far along the analysis is.
     file_hash = hashlib.md5(bytes_data).hexdigest()
     df = nlp_analyzer.cached_enrich(file_hash, df)
-    # ─────────────────────────────────────────────────────────────────────────
-
+    
     # fetch unique users
     user_list = df['user'].unique().tolist()
     if 'group_notification' in user_list:
@@ -147,11 +143,11 @@ if uploaded_file is not None:
             ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
             st.pyplot(fig)
 
-        # ── PHASE 1: Sentiment Analysis ───────────────────────────────────────
+        # Sentiment Analysis
         st.title("Sentiment Analysis")
         st.caption(
-            "Powered by XLM-RoBERTa fine-tuned on Hinglish/code-mixed text. "
-            "Sentiment scores represent model confidence (0-1), not emotional intensity."
+            "Sentiment analysis using a multilingual XLM-RoBERTa model. "
+            "The score represents model confidence (0–1), not emotional intensity."
         )
 
         sentiment_df = df if selected_user == "Overall" else df[df["user"] == selected_user]
@@ -214,18 +210,17 @@ if uploaded_file is not None:
             st.dataframe(avg_conf, use_container_width=True)
 
             st.info(
-                "Hinglish is informal so spelling varies. Short messages like 'okay' are ambiguous. "
-                "Sarcasm is not detected yet. Sentiment score is model confidence, not emotional intensity."
+                "Hinglish messages may contain spelling variations and code-switching. "
+                "Short messages can be ambiguous. Sentiment confidence represents model certainty, "
+                "not emotional intensity."
             )
-        # ── END PHASE 1 ───────────────────────────────────────────────────────
-
-        # ── PHASE 2: Emotion Analysis ─────────────────────────────────────────
+        
+        # Emotion Analysis
         st.title("Emotion Analysis")
         st.caption(
-            "Multilingual XLM-RoBERTa emotion model (tabularisai/multilingual-emotion-classification). "
-            "11 emotion classes: Anger, Contempt, Disgust, Fear, Frustration, Gratitude, "
-            "Joy, Love, Neutral, Sadness, Surprise. "
-            "Emotion score = model confidence (0-1)."
+            "Multilingual XLM-RoBERTa emotion classification model. "
+            "The model predicts 11 emotion categories. "
+            "Emotion score represents model confidence (0–1), not emotional intensity."
         )
 
         EMOTION_COLORS = nlp_analyzer.EMOTION_COLORS
@@ -305,15 +300,12 @@ if uploaded_file is not None:
             st.dataframe(avg_emo_conf, use_container_width=True)
 
             st.info(
-                "This model has 11 emotion classes: "
-                "Anger, Contempt, Disgust, Fear, Frustration, Gratitude, "
-                "Joy, Love, Neutral, Sadness, Surprise. "
-                "Short Hinglish messages often predict Neutral. "
-                "Emotion score is model confidence, not intensity."
+                "Emotion predictions are based on 11 predefined emotion categories. "
+                "Short or ambiguous Hinglish messages may be classified as Neutral. "
+                "Confidence indicates model certainty, not emotional intensity."
             )
-        # ── END PHASE 2 ───────────────────────────────────────────────────────
-
-        # ── PHASE 3: Emoji + Emotion ──────────────────────────────────────────
+        
+        # Emoji + Emotion
         st.title("Emoji + Emotion Analysis")
         st.caption("Which emojis appear alongside each predicted emotion in this chat.")
 
@@ -373,9 +365,8 @@ if uploaded_file is not None:
                 "Co-occurrence means the emoji appeared in a message predicted with that emotion. "
                 "The same emoji can appear across multiple emotions depending on context."
             )
-        # ── END PHASE 3 ───────────────────────────────────────────────────────
-
-        # ── PHASE 4: Sentiment by User + Emotion by User ──────────────────────
+        
+        # Sentiment by User + Emotion by User
         st.title("Sentiment by User")
         st.caption("% of each user's messages as Positive / Neutral / Negative. Min 5 messages to appear.")
 
@@ -460,9 +451,8 @@ if uploaded_file is not None:
                 "Users with fewer than 5 messages are hidden. "
                 "Dominant emotion is the most frequent prediction, not a personality assessment."
             )
-        # ── END PHASE 4 ───────────────────────────────────────────────────────
-
-        # ── PHASE 5: Temporal Analysis ────────────────────────────────────────
+            
+        # Temporal Analysis
         EMOTION_COLORS = nlp_analyzer.EMOTION_COLORS
         EMOTION_ICONS  = nlp_analyzer.EMOTION_ICONS
 
@@ -568,9 +558,8 @@ if uploaded_file is not None:
                     }),
                     use_container_width=True
                 )
-        # ── END PHASE 5 ───────────────────────────────────────────────────────
-
-        # ── PHASE 6: Top Positive and Negative Messages ───────────────────────
+        
+        # Top Positive and Negative Messages
         # Shows the individual messages the model was most confident about.
         # Useful for sanity-checking the model and exploring the data.
         # sentiment_score = model confidence (0–1), NOT emotional intensity.
@@ -624,26 +613,21 @@ if uploaded_file is not None:
             "it only means the model had less doubt about its prediction. "
             "Short, unambiguous messages (e.g. 'I hate this') often score highest."
         )
-        # ── END PHASE 6 ───────────────────────────────────────────────────────
-
-        # ── PHASE 7: Sarcasm / Irony Detection ───────────────────────────────
-        # Model: amaan00z/sarcasm_xlmr
-        # XLM-RoBERTa fine-tuned for sarcasm detection.
-        # Handles Hinglish better than English-only models.
-        # Binary classifier: LABEL_0 (not sarcastic) | LABEL_1 (sarcastic)
-        # sarcasm_score = model confidence (0–1) for the predicted label.
-        # =====================================================================
+        
+        # Sarcasm / irony detection.
+        # The model performs binary classification:
+        # LABEL_0 → Not Sarcastic
+        # LABEL_1 → Sarcastic
+        # sarcasm_confidence represents confidence in the predicted label.
         st.title("Sarcasm / Irony Detection")
         st.caption(
-            "Powered by amaan00z/sarcasm_xlmr — XLM-RoBERTa fine-tuned for sarcasm detection. "
-            "Handles Hinglish better than English-only models. "
-            "sarcasm_score = model confidence (0–1) for the predicted label."
+            "Sarcasm detection using an XLM-RoBERTa-based classification model. "
+            "The sarcasm score represents model confidence (0–1) for the predicted label."
         )
         st.warning(
-            "**Note:** Sarcasm is highly context-dependent. "
-            "Phrases like 'haan bilkul' and 'wah kya baat hai' are often detected correctly "
-            "but the model may still miss subtle or heavily context-dependent sarcasm. "
-            "Treat results as a statistical signal, not a definitive classification."
+            "**Note:** Sarcasm is highly context-dependent and may require conversational context. "
+            "The model analyzes messages individually, so subtle or context-dependent sarcasm "
+            "may be missed. Predictions should be treated as statistical estimates."
         )
 
         sarc_df = df if selected_user == "Overall" else df[df["user"] == selected_user]
@@ -658,7 +642,7 @@ if uploaded_file is not None:
             sarc_pct     = round(sarc_count / total_sarc * 100, 1)
             non_pct      = round(non_count  / total_sarc * 100, 1)
 
-            # ── Metric cards ──────────────────────────────────────────────────
+            # Metric cards
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.metric("Messages Analyzed", total_sarc)
@@ -667,7 +651,7 @@ if uploaded_file is not None:
             with col3:
                 st.metric("Not Sarcastic", f"{non_pct}%", delta=f"{non_count} msgs")
 
-            # ── Distribution bar + pie ─────────────────────────────────────────
+            # Distribution bar + pie
             col1, col2 = st.columns(2)
 
             with col1:
@@ -691,7 +675,7 @@ if uploaded_file is not None:
                 )
                 st.pyplot(fig)
 
-            # ── Sarcasm rate by user (Overall only) ───────────────────────────
+            # Sarcasm rate by user (Overall only)
             if selected_user == "Overall":
                 st.header("Sarcasm Rate by User")
                 st.caption("% of each user's messages predicted as sarcastic. Min 5 messages to appear.")
@@ -722,7 +706,7 @@ if uploaded_file is not None:
                             use_container_width=True
                         )
 
-            # ── Sarcasm over time ─────────────────────────────────────────────
+            # Sarcasm over time
             st.header("Sarcasm Rate Over Time")
             st.caption("Monthly % of messages predicted as sarcastic.")
 
@@ -749,7 +733,7 @@ if uploaded_file is not None:
                         use_container_width=True
                     )
 
-            # ── Top sarcastic messages ─────────────────────────────────────────
+            # Top sarcastic messages
             st.header("Most Confidently Sarcastic Messages")
             st.caption(
                 "Messages the model was most confident are sarcastic. "
@@ -765,7 +749,7 @@ if uploaded_file is not None:
                     "user":          "User",
                     "date":          "Date",
                     "message":       "Message",
-                    "sarcasm_score": "Sarcasm Confidence",
+                    "sarcasm_confidence": "Sarcasm Confidence",
                     "sentiment":     "Sentiment",
                     "emotion":       "Emotion"
                 }
@@ -775,12 +759,12 @@ if uploaded_file is not None:
                     use_container_width=True
                 )
 
-            # ── Sarcasm × Sentiment cross-analysis ────────────────────────────
+            # Sarcasm × Sentiment cross-analysis
             st.header("Sarcasm × Sentiment")
             st.caption(
-                "How sarcastic messages are distributed across sentiment labels. "
-                "Sarcasm often shows up as Positive sentiment because the model "
-                "reads the surface words, not the ironic intent."
+                "Distribution of predicted sarcasm labels across sentiment categories. "
+                "Sarcastic messages may receive positive sentiment predictions when "
+                "the surface wording appears positive."
             )
 
             cross_sarc = df if selected_user == "Overall" else df[df["user"] == selected_user]
@@ -804,14 +788,14 @@ if uploaded_file is not None:
                 plt.xticks(rotation='vertical')
                 st.pyplot(fig)
 
-            # ── Disclaimer ────────────────────────────────────────────────────
+            # Disclaimer
             st.info(
                 "**Sarcasm detection limitations:**  \n"
-                "- Model: amaan00z/sarcasm_xlmr (XLM-RoBERTa, multilingual).  \n"
-                "- Handles Hinglish sarcasm better than English-only models.  \n"
-                "- Sarcasm score near 0.5 = model is uncertain — treat with caution.  \n"
-                "- Sarcastic messages may still get Positive sentiment because the  \n"
-                "  sentiment model reads surface words, not ironic intent.  \n"
-                "- These predictions are statistical estimates, not human judgements."
+                "- Sarcasm is highly dependent on context and conversational intent.  \n"
+                "- The model analyzes each message independently.  \n"
+                "- Scores near 0.5 indicate greater model uncertainty.  \n"
+                "- Sarcastic messages may receive positive sentiment predictions because "
+                "sentiment and sarcasm are separate classification tasks.  \n"
+                "- Predictions are statistical estimates, not human judgements."
             )
-        # ── END PHASE 7 ───────────────────────────────────────────────────────
+        
