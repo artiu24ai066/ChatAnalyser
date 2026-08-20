@@ -879,8 +879,8 @@ def top_sarcastic_messages(selected_user, df, n=10):
     Returns
     -------
     pd.DataFrame
-        Columns: user, date, message, sarcasm_score, sentiment, emotion
-        Sorted by sarcasm_score descending.
+        Columns: user, date, message, sarcasm_confidence, sentiment, emotion
+        Sorted by sarcasm_confidence descending.
         Empty DataFrame if no sarcastic messages found.
     """
     if selected_user != 'Overall':
@@ -893,11 +893,11 @@ def top_sarcastic_messages(selected_user, df, n=10):
 
     if df.empty:
         return pd.DataFrame(
-            columns=['user', 'date', 'message', 'sarcasm_score', 'sentiment', 'emotion']
+            columns=['user', 'date', 'message', 'sarcasm_confidence', 'sentiment', 'emotion']
         )
 
     # Pull available columns — sentiment/emotion may not always be present
-    cols = ['user', 'date', 'message', 'sarcasm_score']
+    cols = ['user', 'date', 'message', 'sarcasm_confidence']
     if 'sentiment' in df.columns:
         cols.append('sentiment')
     if 'emotion' in df.columns:
@@ -905,9 +905,9 @@ def top_sarcastic_messages(selected_user, df, n=10):
 
     result = (
         df[cols]
-        .sort_values('sarcasm_score', ascending=False)
+        .sort_values('sarcasm_confidence', ascending=False)
         .head(n)
         .reset_index(drop=True)
     )
-    result['sarcasm_score'] = result['sarcasm_score'].astype(float).round(4)
+    result['sarcasm_confidence'] = result['sarcasm_confidence'].astype(float).round(4)
     return result

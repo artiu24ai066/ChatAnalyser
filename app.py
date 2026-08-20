@@ -6,9 +6,109 @@ import matplotlib.dates as mdates
 import seaborn as sns
 import hashlib
 
-st.sidebar.title("Whatsapp Chat Analyzer")
+st.set_page_config(
+    page_title="ChatScope | WhatsApp Intelligence",
+    page_icon="💬",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
-uploaded_file = st.sidebar.file_uploader("Choose a file")
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+    --ink: #1d2733;
+    --muted: #697583;
+    --paper: #f7f8f5;
+    --panel: #ffffff;
+    --line: #e4e8e4;
+    --mint: #168f72;
+    --mint-soft: #e6f4ef;
+    --coral: #e56c52;
+    --yellow: #f4c95d;
+}
+
+html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--ink); }
+.stApp { background: var(--paper); }
+[data-testid="stAppViewContainer"] { background: var(--paper); }
+[data-testid="stHeader"] { background: rgba(247, 248, 245, 0.82); }
+[data-testid="stSidebar"] { background: #172b35; border-right: 0; }
+[data-testid="stSidebar"] label { color: #f4f7f4 !important; }
+[data-testid="stSidebar"] .stFileUploader { background: rgba(255,255,255,.08); border: 1px dashed rgba(255,255,255,.3); border-radius: 12px; padding: 8px; }
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] { background: #203d48; border-color: rgba(255,255,255,.38); }
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] { color: #f4f7f4 !important; }
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] small { color: #b7c9c5 !important; }
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] button { background: var(--yellow) !important; color: #172b35 !important; border: 0 !important; }
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] button * { color: #172b35 !important; }
+[data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] { background: #294b57 !important; border-radius: 8px; }
+[data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] span,
+[data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] p,
+[data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"] { color: #ffffff !important; opacity: 1 !important; }
+[data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg { fill: #ffffff !important; color: #ffffff !important; }
+[data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button { background: transparent !important; color: #ffffff !important; }
+[data-testid="stSidebar"] [data-baseweb="select"] > div { background: #203d48 !important; border-color: rgba(255,255,255,.38) !important; }
+[data-testid="stSidebar"] [data-baseweb="select"] [role="option"],
+[data-testid="stSidebar"] [data-baseweb="select"] [aria-selected="true"],
+[data-testid="stSidebar"] [data-baseweb="select"] span,
+[data-testid="stSidebar"] [data-baseweb="select"] > div > div { color: #ffffff !important; opacity: 1 !important; }
+[data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #f4f7f4 !important; color: #f4f7f4 !important; }
+[data-testid="stSidebar"] .stButton > button { background: var(--yellow); color: #172b35; border: 0; font-weight: 700; }
+[data-testid="stSidebar"] .stButton > button:hover { background: #f8d879; color: #172b35; }
+
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; letter-spacing: 0; color: var(--ink); }
+h1 { font-size: 2.55rem !important; line-height: 1.05 !important; }
+h2 { margin-top: 1.8rem !important; }
+.brand-mark { font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; margin: 4px 0 30px; }
+.brand-mark span { color: var(--yellow); }
+.sidebar-kicker { color: #9fc8bb; text-transform: uppercase; font-size: .69rem; font-weight: 700; letter-spacing: .14em; margin: 0 0 6px; }
+.sidebar-copy { color: #b7c9c5; font-size: .83rem; line-height: 1.5; margin-bottom: 22px; }
+.hero { background: #ffffff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 34px 28px; margin: 8px 0 24px; box-shadow: 0 8px 30px rgba(29,39,51,.05); position: relative; overflow: hidden; }
+.hero:after { content: ''; position: absolute; width: 180px; height: 180px; border: 22px solid var(--mint-soft); border-radius: 50%; right: -42px; top: -65px; }
+.hero-kicker { color: var(--mint); text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; font-weight: 700; margin-bottom: 10px; }
+.hero h1 { margin: 0 0 9px; position: relative; z-index: 1; }
+.hero p { color: var(--muted); max-width: 660px; margin: 0; font-size: 1.02rem; position: relative; z-index: 1; }
+.hero-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; position: relative; z-index: 1; }
+.pill { background: var(--mint-soft); color: #17765f; border-radius: 999px; padding: 6px 11px; font-size: .75rem; font-weight: 700; }
+.empty-state { max-width: 820px; margin: 12vh auto 0; text-align: center; padding: 46px 34px; background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 12px 40px rgba(29,39,51,.06); }
+.empty-icon { font-size: 3rem; margin-bottom: 12px; }
+.empty-state h1 { margin: 0 0 12px; }
+.empty-state p { color: var(--muted); max-width: 560px; margin: auto; line-height: 1.6; }
+.section-intro { color: var(--muted); font-size: .92rem; margin-top: -10px; margin-bottom: 18px; }
+[data-testid="stMetric"] { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; box-shadow: 0 4px 16px rgba(29,39,51,.035); }
+[data-testid="stMetricLabel"] { color: var(--muted); font-size: .78rem; }
+[data-testid="stMetricValue"] { color: var(--ink); font-family: 'Space Grotesk', sans-serif; }
+[data-testid="stDataFrame"] { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.stButton > button { border-radius: 9px; min-height: 2.7rem; font-weight: 700; }
+.stProgress > div > div > div { background: var(--mint); }
+div[data-testid="stExpander"] { border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.footer-note { color: #87928f; font-size: .75rem; text-align: center; margin: 42px 0 12px; }
+</style>
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown('<div class="brand-mark">Chat<span>Scope</span></div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-kicker">WhatsApp intelligence</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-copy">Turn everyday conversations into patterns, moods, and moments worth noticing.</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-kicker">Start here</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-copy">Upload a WhatsApp chat export in <b>.txt</b> format to begin.</div>', unsafe_allow_html=True)
+
+uploaded_file = st.sidebar.file_uploader(
+    "Choose a WhatsApp chat file",
+    type=["txt"],
+    help="Export your WhatsApp conversation as a .txt file, then upload it here.",
+)
+if uploaded_file is None:
+    st.markdown("""
+    <div class="empty-state">
+        <div class="empty-icon">💬</div>
+        <div class="hero-kicker">Conversation, made visible</div>
+        <h1>Find the story inside your chats.</h1>
+        <p>Upload a WhatsApp export from the sidebar to explore activity patterns, language, sentiment, emotion, emojis, and irony in one calm workspace.</p>
+        <div class="hero-meta" style="justify-content:center;"><span class="pill">Activity</span><span class="pill">Language</span><span class="pill">Sentiment</span><span class="pill">Emotion</span><span class="pill">Sarcasm</span></div>
+    </div>
+    <div class="footer-note">Private by design · Analysis runs on the file you provide</div>
+    """, unsafe_allow_html=True)
+
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode("utf-8")
@@ -31,15 +131,26 @@ if uploaded_file is not None:
     user_list.sort()
     user_list.insert(0,"Overall")
 
-    selected_user = st.sidebar.selectbox("Show analysis wrt",user_list)
+    selected_user = st.sidebar.selectbox("Focus analysis on",user_list)
     display_df = df if selected_user == 'Overall' else df[df['user'] == selected_user]
-    st.dataframe(display_df)
+    st.markdown(f"""
+    <div class="hero">
+        <div class="hero-kicker">Conversation loaded</div>
+        <h1>{'The whole conversation' if selected_user == 'Overall' else selected_user}</h1>
+        <p>{len(display_df):,} messages ready to explore. Move from the big picture to the small signals: who speaks, when the chat moves, and what the language feels like.</p>
+        <div class="hero-meta"><span class="pill">{len(user_list) - 1} participants</span><span class="pill">3 AI lenses</span><span class="pill">{display_df['date'].min().strftime('%b %Y')} – {display_df['date'].max().strftime('%b %Y')}</span></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.expander("Preview parsed messages", expanded=False):
+        st.dataframe(display_df, use_container_width=True, height=260)
 
     if st.sidebar.button("Show Analysis"):
 
         # Stats Area
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user,df)
-        st.title("Top Statistics")
+        st.header("At a glance")
+        st.markdown('<div class="section-intro">A quick read on the scale and shape of this conversation.</div>', unsafe_allow_html=True)
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
