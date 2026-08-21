@@ -78,7 +78,7 @@ html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--in
 h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; letter-spacing: 0; color: var(--ink); }
 h1 { font-size: 2.55rem !important; line-height: 1.05 !important; }
 h2 { margin-top: 1.8rem !important; }
-.brand-mark { font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; margin: 4px 0 30px; }
+.brand-mark { color: #f4f7f4; font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; margin: 4px 0 30px; }
 .brand-mark span { color: var(--yellow); }
 .sidebar-kicker { color: #9fc8bb; text-transform: uppercase; font-size: .69rem; font-weight: 700; letter-spacing: .14em; margin: 0 0 6px; }
 .sidebar-copy { color: #b7c9c5; font-size: .83rem; line-height: 1.5; margin-bottom: 22px; }
