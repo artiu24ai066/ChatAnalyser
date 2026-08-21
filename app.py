@@ -6,6 +6,25 @@ import matplotlib.dates as mdates
 import seaborn as sns
 import hashlib
 
+plt.rcParams.update({
+    "figure.facecolor": "#ffffff",
+    "axes.facecolor": "#ffffff",
+    "axes.edgecolor": "#d7dfdc",
+    "axes.labelcolor": "#697583",
+    "axes.titlecolor": "#1d2733",
+    "axes.grid": True,
+    "axes.axisbelow": True,
+    "grid.color": "#e8eeeb",
+    "grid.linewidth": 0.8,
+    "xtick.color": "#697583",
+    "ytick.color": "#697583",
+    "text.color": "#1d2733",
+    "font.family": "sans-serif",
+    "font.size": 10,
+    "legend.frameon": False,
+    "figure.constrained_layout.use": True,
+})
+
 st.set_page_config(
     page_title="ChatScope | WhatsApp Intelligence",
     page_icon="💬",
@@ -86,7 +105,12 @@ h2 { margin-top: 1.8rem !important; }
 [data-testid="stMetric"] { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; box-shadow: 0 4px 16px rgba(29,39,51,.035); }
 [data-testid="stMetricLabel"] { color: var(--muted); font-size: .78rem; }
 [data-testid="stMetricValue"] { color: var(--ink); font-family: 'Space Grotesk', sans-serif; }
-[data-testid="stDataFrame"] { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+[data-testid="stDataFrame"] { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 5px 18px rgba(29,39,51,.035); animation: rise-in .5s ease-out both; }
+[data-testid="stImage"] { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 10px; box-shadow: 0 5px 18px rgba(29,39,51,.035); animation: rise-in .55s ease-out both; }
+[data-testid="stMetric"] { animation: rise-in .45s ease-out both; }
+.stPlotlyChart { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 5px 18px rgba(29,39,51,.035); animation: rise-in .55s ease-out both; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { [data-testid="stDataFrame"], [data-testid="stImage"], [data-testid="stMetric"], .stPlotlyChart { animation: none; } }
 .stButton > button { border-radius: 9px; min-height: 2.7rem; font-weight: 700; }
 .stProgress > div > div > div { background: var(--mint); }
 div[data-testid="stExpander"] { border: 1px solid var(--line); border-radius: 10px; background: #fff; }
@@ -254,7 +278,9 @@ if uploaded_file is not None:
             st.dataframe(emoji_df)
         with col2:
             fig,ax = plt.subplots()
-            ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
+            ax.pie(emoji_df[1].head(), labels=emoji_df[0].head(), autopct="%1.0f%%",
+                   wedgeprops={"linewidth": 2, "edgecolor": "white"},
+                   textprops={"color": "#1d2733", "fontsize": 9})
             st.pyplot(fig)
 
         # Sentiment Analysis
@@ -308,7 +334,9 @@ if uploaded_file is not None:
                 st.header("Sentiment Proportion")
                 fig, ax = plt.subplots()
                 ax.pie(bar_values, labels=bar_labels,
-                       colors=bar_colors, autopct="%0.2f")
+                      colors=bar_colors, autopct="%1.0f%%",
+                      wedgeprops={"linewidth": 2, "edgecolor": "white"},
+                      textprops={"color": "#1d2733", "fontsize": 9})
                 st.pyplot(fig)
 
             st.header("Average Model Confidence")
@@ -380,7 +408,9 @@ if uploaded_file is not None:
                 st.header("Emotion Proportion")
                 fig, ax = plt.subplots()
                 ax.pie(bar_values, labels=bar_labels,
-                       colors=bar_colors, autopct="%0.2f")
+                      colors=bar_colors, autopct="%1.0f%%",
+                      wedgeprops={"linewidth": 2, "edgecolor": "white"},
+                      textprops={"color": "#1d2733", "fontsize": 9})
                 st.pyplot(fig)
 
             st.header("Sentiment x Emotion")
@@ -785,7 +815,9 @@ if uploaded_file is not None:
                     sarc_dist['count'],
                     labels=sarc_dist['label'],
                     colors=colors,
-                    autopct="%0.2f"
+                    autopct="%1.0f%%",
+                    wedgeprops={"linewidth": 2, "edgecolor": "white"},
+                    textprops={"color": "#1d2733", "fontsize": 9}
                 )
                 st.pyplot(fig)
 
