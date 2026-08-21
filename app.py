@@ -56,8 +56,9 @@ html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--in
 [data-testid="stSidebar"] label { color: #f4f7f4 !important; }
 [data-testid="stSidebar"] .stFileUploader { background: rgba(255,255,255,.08); border: 1px dashed rgba(255,255,255,.3); border-radius: 12px; padding: 8px; }
 [data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] { background: #203d48; border-color: rgba(255,255,255,.38); }
-[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] { color: #f4f7f4 !important; }
-[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] small { color: #b7c9c5 !important; }
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"],
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] *,
+[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] small { color: #f4f7f4 !important; opacity: 1 !important; }
 [data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] button { background: var(--yellow) !important; color: #172b35 !important; border: 0 !important; }
 [data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] button * { color: #172b35 !important; }
 [data-testid="stSidebar"] section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] { background: #294b57 !important; border-radius: 8px; }
@@ -91,8 +92,8 @@ h2 { margin-top: 1.8rem !important; }
 .pill { background: var(--mint-soft); color: #17765f; border-radius: 999px; padding: 6px 11px; font-size: .75rem; font-weight: 700; }
 .empty-state { max-width: 820px; margin: 12vh auto 0; text-align: center; padding: 46px 34px; background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 12px 40px rgba(29,39,51,.06); }
 .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-.empty-state h1 { margin: 0 0 12px; }
-.empty-state p { color: var(--muted); max-width: 560px; margin: auto; line-height: 1.6; }
+.empty-state h1 { color: var(--ink) !important; margin: 0 0 12px; }
+.empty-state p { color: var(--muted) !important; max-width: 560px; margin: auto; line-height: 1.6; }
 .section-intro { color: var(--muted); font-size: .92rem; margin-top: -10px; margin-bottom: 18px; }
 .glance-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 0 34px; }
 .glance-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 17px 18px 16px; min-height: 108px; box-shadow: 0 5px 18px rgba(29,39,51,.04); position: relative; overflow: hidden; }
