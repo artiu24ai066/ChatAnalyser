@@ -106,7 +106,7 @@ WhatsApp .txt Export
 │                     │
 │ Statistics          │
 │ Charts              │
-│ Tables               │
+│ Tables              │
 │ NLP Insights        │
 └─────────────────────┘
 ```
@@ -149,8 +149,8 @@ The three NLP models may require significant memory during analysis.
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
-cd <YOUR_REPOSITORY_NAME>
+git clone https://github.com/artiu24ai066/ChatAnalyser.git
+cd ChatAnalyser
 ```
 
 ### 2. Create a virtual environment
@@ -376,19 +376,6 @@ It can be used to examine:
 * Classification report
 * Prediction confidence
 * Sample-level predictions
-
-Example result format:
-
-```text
-Sarcasm Detection
------------------
-Accuracy  : XX.XX%
-Precision : XX.XX%
-Recall    : XX.XX%
-F1 Score  : XX.XX%
-```
-
-> Replace the placeholder values with the final evaluation results from the project.
 
 ---
 
