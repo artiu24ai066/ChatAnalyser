@@ -75,6 +75,14 @@ h2 { margin-top: 1.8rem !important; }
 .empty-state h1 { margin: 0 0 12px; }
 .empty-state p { color: var(--muted); max-width: 560px; margin: auto; line-height: 1.6; }
 .section-intro { color: var(--muted); font-size: .92rem; margin-top: -10px; margin-bottom: 18px; }
+.glance-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 0 34px; }
+.glance-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 17px 18px 16px; min-height: 108px; box-shadow: 0 5px 18px rgba(29,39,51,.04); position: relative; overflow: hidden; }
+.glance-card:after { content: ''; position: absolute; width: 58px; height: 58px; border: 10px solid var(--mint-soft); border-radius: 50%; right: -19px; bottom: -25px; }
+.glance-label { color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.glance-value { color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 1.85rem; font-weight: 700; line-height: 1.1; margin-top: 13px; position: relative; z-index: 1; }
+.timeline-heading { border-top: 1px solid var(--line); padding-top: 24px; }
+@media (max-width: 760px) { .glance-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 430px) { .glance-grid { grid-template-columns: 1fr; } }
 [data-testid="stMetric"] { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; box-shadow: 0 4px 16px rgba(29,39,51,.035); }
 [data-testid="stMetricLabel"] { color: var(--muted); font-size: .78rem; }
 [data-testid="stMetricValue"] { color: var(--ink); font-family: 'Space Grotesk', sans-serif; }
@@ -151,20 +159,15 @@ if uploaded_file is not None:
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user,df)
         st.header("At a glance")
         st.markdown('<div class="section-intro">A quick read on the scale and shape of this conversation.</div>', unsafe_allow_html=True)
-        col1, col2, col3, col4 = st.columns(4)
-
-        with col1:
-            st.header("Total Messages")
-            st.title(num_messages)
-        with col2:
-            st.header("Total Words")
-            st.title(words)
-        with col3:
-            st.header("Media Shared")
-            st.title(num_media_messages)
-        with col4:
-            st.header("Links Shared")
-            st.title(num_links)
+        st.markdown(f'''
+        <div class="glance-grid">
+            <div class="glance-card"><div class="glance-label">Total messages</div><div class="glance-value">{num_messages:,}</div></div>
+            <div class="glance-card"><div class="glance-label">Total words</div><div class="glance-value">{words:,}</div></div>
+            <div class="glance-card"><div class="glance-label">Media shared</div><div class="glance-value">{num_media_messages:,}</div></div>
+            <div class="glance-card"><div class="glance-label">Links shared</div><div class="glance-value">{num_links:,}</div></div>
+        </div>
+        <div class="timeline-heading"></div>
+        ''', unsafe_allow_html=True)
 
         # monthly timeline
         st.title("Monthly Timeline")
