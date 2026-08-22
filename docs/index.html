@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Chat Pattern Insights</title>
+    
+    <meta name="description"
+          content="WhatsApp Chat Pattern Insights is a WhatsApp chat analyzer that helps you discover activity patterns, sentiment, emotions, emojis and other insights from your conversations.">
+
+    <meta name="keywords"
+          content="WhatsApp Chat Analyzer, WhatsApp Chat Pattern Insights, WhatsApp analysis, chat analysis, sentiment analysis">
+
+    <!-- Google Fonts - Same as your Streamlit app -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>�</text></svg>">
+
+    <style>
+        /* CSS Variables - Exact same as your Streamlit app */
+        :root {
+            --ink: #1d2733;
+            --muted: #697583;
+            --paper: #f7f8f5;
+            --panel: #ffffff;
+            --line: #e4e8e4;
+            --mint: #168f72;
+            --mint-soft: #e6f4ef;
+            --coral: #e56c52;
+            --yellow: #f4c95d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--ink);
+        }
+
+        body {
+            background: var(--paper);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 12vh auto 0;
+            padding: 46px 34px;
+            text-align: center;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(29,39,51,.06);
+        }
+
+        /* Empty state styling - matching your app */
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .hero-kicker {
+            color: var(--mint);
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            font-size: .72rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.55rem;
+            line-height: 1.05;
+            letter-spacing: 0;
+            color: var(--ink);
+            margin: 0 0 12px;
+        }
+
+        p {
+            color: var(--muted);
+            max-width: 560px;
+            margin: auto;
+            line-height: 1.6;
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        /* Hero meta pills - exact styling from your app */
+        .hero-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .pill {
+            background: var(--mint-soft);
+            color: #17765f;
+            border-radius: 999px;
+            padding: 6px 11px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        /* Button styling - matching your app's yellow button theme */
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 15px 28px;
+            background: var(--yellow);
+            color: #172b35;
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 0;
+            min-height: 2.7rem;
+        }
+
+        .button:hover {
+            background: #f8d879;
+            color: #172b35;
+            transform: translateY(-1px);
+        }
+
+        /* Features section - matching your glance-grid styling */
+        .features {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 25px 18px;
+            min-height: 108px;
+            box-shadow: 0 5px 18px rgba(29,39,51,.04);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(29,39,51,.08);
+            transform: translateY(-2px);
+        }
+
+        /* Decorative circle - same as your glance-card styling */
+        .card:after {
+            content: '';
+            position: absolute;
+            width: 58px;
+            height: 58px;
+            border: 10px solid var(--mint-soft);
+            border-radius: 50%;
+            right: -19px;
+            bottom: -25px;
+        }
+
+        .card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            color: var(--ink);
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: .92rem;
+            line-height: 1.5;
+            margin: 0;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer note - matching your app's footer */
+        .footer-note {
+            color: #87928f;
+            font-size: .75rem;
+            text-align: center;
+            margin: 42px 0 12px;
+        }
+
+        /* Responsive design - matching your app's breakpoints */
+        @media (max-width: 760px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 8vh auto 0;
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            p {
+                font-size: 17px;
+            }
+            
+            .button {
+                font-size: 16px;
+                padding: 12px 24px;
+            }
+        }
+
+        /* Animation - subtle fade in effect */
+        .container {
+            animation: rise-in 0.5s ease-out both;
+        }
+
+        @keyframes rise-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Prevent animation for users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .container {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="empty-icon">💬</div>
+    <div class="hero-kicker">Conversation, made visible</div>
+
+    <h1>WhatsApp Chat Pattern Insights</h1>
+
+    <p>
+        Analyze your WhatsApp conversations and discover
+        meaningful patterns, statistics and insights from your chats.
+    </p>
+
+    <p>
+        Explore message activity, user statistics, sentiment,
+        emotions, emojis, word patterns and other interesting
+        characteristics of your WhatsApp conversations.
+    </p>
+
+    <a class="button"
+       href="https://whatsapp-chat-pattern-insights.streamlit.app/"
+       target="_blank">
+        Launch Analyzer
+    </a>
+
+    <div class="hero-meta">
+        <span class="pill">Activity</span>
+        <span class="pill">Language</span>
+        <span class="pill">Sentiment</span>
+        <span class="pill">Emotion</span>
+        <span class="pill">Sarcasm</span>
+    </div>
+
+    <div class="features">
+
+        <div class="card">
+            <h2>📊 Chat Statistics</h2>
+            <p>
+                Explore message counts, activity patterns,
+                busiest users and chat trends.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>😊 Sentiment Analysis</h2>
+            <p>
+                Analyze the overall sentiment of messages
+                using NLP techniques.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>😂 Emoji Analysis</h2>
+            <p>
+                Discover the emojis used throughout your
+                WhatsApp conversations.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>🔍 Pattern Insights</h2>
+            <p>
+                Find interesting patterns and characteristics
+                hidden inside your conversations.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="footer-note">Private by design · Analysis runs on the file you provide</div>
+
+</div>
+
+</body>
+</html>
